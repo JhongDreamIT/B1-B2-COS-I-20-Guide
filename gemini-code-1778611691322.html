@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change of Status Guide | B1/B2</title>
+    <style>
+        :root {
+            /* Apple Design System Colors */
+            --bg-color: #F5F5F7;
+            --card-bg: #FFFFFF;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --apple-blue: #0071E3;
+            --apple-blue-hover: #0077ED;
+            --apple-green: #34C759;
+            --apple-red: #FF3B30;
+            --apple-orange: #FF9500;
+            --border-color: #E5E5EA;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.47059;
+            font-weight: 400;
+            letter-spacing: -0.022em;
+            padding-bottom: 100px;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: -0.021em;
+            color: var(--text-primary);
+        }
+
+        /* Language Segmented Control (Apple Style) */
+        .lang-control {
+            display: flex;
+            background: #E3E3E8;
+            padding: 2px;
+            border-radius: 8px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            height: 3px;
+            background: transparent;
+            width: 100%;
+            position: absolute;
+            bottom: -1px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--apple-blue);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Typography & Layout */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 50px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -0.005em;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Phase Cards */
+        .phase-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .phase-badge {
+            background: var(--apple-blue);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 15px;
+            margin-right: 16px;
+        }
+
+        .phase-card.locked .phase-badge {
+            background: var(--text-secondary);
+        }
+
+        .phase-title {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .phase-desc {
+            font-size: 17px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            margin-top: -10px;
+        }
+
+        /* Locked State */
+        .locked {
+            opacity: 0.5;
+            pointer-events: none;
+            filter: grayscale(100%);
+            transform: scale(0.98);
+        }
+
+        .locked-message {
+            display: none;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 500;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+        .locked .locked-message {
+            display: block;
+        }
+
+        /* Interactive Checklist */
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item:hover .checkbox-circle {
+            border-color: var(--apple-blue);
+        }
+
+        .checkbox-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #C7C7CC;
+            margin-right: 16px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            flex-shrink: 0;
+        }
+
+        .checkbox-circle::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 8px;
+            width: 4px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) scale(0);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .checklist-item.checked .checkbox-circle {
+            background-color: var(--apple-blue);
+            border-color: var(--apple-blue);
+        }
+
+        .checklist-item.checked .checkbox-circle::after {
+            transform: rotate(45deg) scale(1);
+        }
+
+        .item-text {
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item.checked .item-text {
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        /* Hidden Native Checkbox */
+        .checklist-item input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-top: 24px;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .callout-info {
+            background-color: rgba(0, 113, 227, 0.08);
+            color: var(--apple-blue);
+        }
+
+        .callout-warning {
+            background-color: rgba(255, 149, 0, 0.1);
+            color: #CC7A00;
+        }
+
+        .callout-urgent {
+            background-color: rgba(255, 59, 48, 0.1);
+            color: var(--apple-red);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+        }
+
+        /* Success Message */
+        #success-message {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            display: none;
+            padding: 40px;
+        }
+
+        #success-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            .hero p { font-size: 20px; }
+            .phase-card { padding: 24px; }
+            .lang-control { overflow-x: auto; max-width: 100%; white-space: nowrap; }
+            .nav-container { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">COS Guide</div>
+            <div class="lang-control">
+                <button class="lang-btn active" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" onclick="setLanguage('es')">Español</button>
+                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+                <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
+                <button class="lang-btn" onclick="setLanguage('th')">ไทย</button>
+            </div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1 id="hero-title">Change of Status</h1>
+        <p id="hero-sub">B1/B2 ➔ F-1 Student Visa</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="phase-card" id="phase1">
+            <div class="phase-header">
+                <div class="phase-badge">1</div>
+                <h2 class="phase-title" id="phase1-title">Get COS Pending I-20</h2>
+            </div>
+            <p class="phase-desc" id="phase1-desc">Select documents as you gather them. Complete this section to unlock the next step.</p>
+            
+            <ul class="checklist" id="list1">
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc1">Passport (valid next six months)</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc2">Visa (inside the passport)</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc3">I-94 (should be on travel visa for 2-3 months)</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc4">Bank Statement (at least $15,000 USD)</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc5">Letter of Financial Support (if sponsored)</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc6">Proof of relationship to the sponsor</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc7">Filled Application form</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc8">Education Certificate</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 1)">
+                    <input type="checkbox" class="doc-check">
+                    <div class="checkbox-circle"></div>
+                    <span class="item-text" id="doc9">Application Fee ($100)</span>
+                </label>
+            </ul>
+
+            <div class="callout callout-info">
+                <span>ℹ️</span>
+                <span id="phase1-note">Once the school receives all documents, the agent will request the COS Pending I-20 from the DSO.</span>
+            </div>
+        </div>
+
+        <div class="phase-card locked" id="phase2">
+            <div class="phase-header">
+                <div class="phase-badge" style="background: var(--apple-green);">2</div>
+                <h2 class="phase-title" id="phase2-title">File for the I-539</h2>
+            </div>
+            
+            <div class="locked-message" id="locked-msg">🔒 Complete Step 1 to unlock this section.</div>
+            
+            <p class="phase-desc" id="phase2-desc">After the COS Pending I-20 has been approved, proceed with these steps:</p>
+
+            <div class="callout callout-warning">
+                <span>⚠️</span>
+                <span id="lawyer-warning"><b>Highly Recommended:</b> Get help from an immigration lawyer to do this, as it is a very critical step.</span>
+            </div>
+
+            <ul class="checklist" id="list2">
+                <label class="checklist-item" onclick="toggleCheck(this, 2)">
+                    <input type="checkbox" class="step-check">
+                    <div class="checkbox-circle" style="border-color: #C7C7CC;"></div>
+                    <span class="item-text" id="step1">Pay the SEVIS I-901 Fee</span>
+                </label>
+                <label class="checklist-item" onclick="toggleCheck(this, 2)">
+                    <input type="checkbox" class="step-check">
+                    <div class="checkbox-circle" style="border-color: #C7C7CC;"></div>
+                    <span class="item-text" id="step2">File the Form I-539</span>
+                </label>
+            </ul>
+
+            <div class="callout callout-urgent">
+                <span>🚀</span>
+                <span id="urgent-action"><b>Urgent:</b> After paying the SEVIS and filing the I-539, send the school the receipt and the I-539 notice immediately!</span>
+            </div>
+        </div>
+
+        <div id="success-message">
+            <span class="success-icon">🎉</span>
+            <h2 id="success-title">You're All Set!</h2>
+            <p id="success-sub" style="color: var(--text-secondary);">You have completed all the preparation steps for your COS.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Interactive Logic
+        const totalItems = 11; // 9 in Phase 1 + 2 in Phase 2
+
+        function toggleCheck(element, phase) {
+            // Prevent clicking phase 2 if locked
+            if (phase === 2 && document.getElementById('phase2').classList.contains('locked')) {
+                event.preventDefault();
+                return;
+            }
+
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            
+            // Give a tiny delay for visual tap feeling
+            setTimeout(() => {
+                if(checkbox.checked) {
+                    element.classList.add('checked');
+                } else {
+                    element.classList.remove('checked');
+                }
+                updateProgress();
+            }, 50);
+        }
+
+        function updateProgress() {
+            const checkedPhase1 = document.querySelectorAll('#list1 .checklist-item.checked').length;
+            const checkedPhase2 = document.querySelectorAll('#list2 .checklist-item.checked').length;
+            const totalChecked = checkedPhase1 + checkedPhase2;
+
+            // Update Progress Bar
+            const percentage = (totalChecked / totalItems) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+
+            // Unlock Phase 2
+            const phase2 = document.getElementById('phase2');
+            if (checkedPhase1 === 9) {
+                if (phase2.classList.contains('locked')) {
+                    phase2.classList.remove('locked');
+                    // Smooth scroll to Phase 2
+                    setTimeout(() => {
+                        phase2.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Change checkboxes to green for phase 2
+                        document.querySelectorAll('#list2 .checklist-item.checked .checkbox-circle').forEach(el => {
+                            el.style.backgroundColor = 'var(--apple-green)';
+                            el.style.borderColor = 'var(--apple-green)';
+                        });
+                        document.documentElement.style.setProperty('--apple-blue', 'var(--apple-green)');
+                    }, 300);
+                }
+            } else {
+                phase2.classList.add('locked');
+                document.documentElement.style.setProperty('--apple-blue', '#0071E3'); // Revert color
+            }
+
+            // Show Final Success
+            if (totalChecked === totalItems) {
+                document.getElementById('success-message').classList.add('visible');
+                setTimeout(() => {
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }, 200);
+            } else {
+                document.getElementById('success-message').classList.remove('visible');
+            }
+        }
+
+        // Translation Dictionary
+        const translations = {
+            en: {
+                "hero-title": "Change of Status",
+                "hero-sub": "B1/B2 ➔ F-1 Student Visa",
+                "phase1-title": "Get COS Pending I-20",
+                "phase1-desc": "Select documents as you gather them. Complete this section to unlock the next step.",
+                "doc1": "Passport (valid next six months)",
+                "doc2": "Visa (inside the passport)",
+                "doc3": "I-94 (should be on travel visa for 2-3 months)",
+                "doc4": "Bank Statement (at least $15,000 USD)",
+                "doc5": "Letter of Financial Support (if sponsored)",
+                "doc6": "Proof of relationship to the sponsor",
+                "doc7": "Filled Application form",
+                "doc8": "Education Certificate",
+                "doc9": "Application Fee ($100)",
+                "phase1-note": "Once the school receives all documents, the agent will request the COS Pending I-20 from the DSO.",
+                "phase2-title": "File for the I-539",
+                "locked-msg": "🔒 Complete Step 1 to unlock this section.",
+                "phase2-desc": "After the COS Pending I-20 has been approved, proceed with these steps:",
+                "lawyer-warning": "<b>Highly Recommended:</b> Get help from an immigration lawyer to do this, as it is a very critical step.",
+                "step1": "Pay the SEVIS I-901 Fee",
+                "step2": "File the Form I-539",
+                "urgent-action": "<b>Urgent:</b> After paying the SEVIS and filing the I-539, send the school the receipt and the I-539 notice immediately!",
+                "success-title": "You're All Set!",
+                "success-sub": "You have completed all the preparation steps for your COS."
+            },
+            es: {
+                "hero-title": "Cambio de Estatus",
+                "hero-sub": "B1/B2 ➔ Visa de Estudiante F-1",
+                "phase1-title": "Obtener I-20 Pendiente",
+                "phase1-desc": "Seleccione los documentos a medida que los reúna. Complete esta sección para desbloquear el siguiente paso.",
+                "doc1": "Pasaporte (válido por los próximos seis meses)",
+                "doc2": "Visa (dentro del pasaporte)",
+                "doc3": "I-94 (debe estar con visa de turista por 2-3 meses)",
+                "doc4": "Estado de Cuenta Bancario (al menos $15,000 USD)",
+                "doc5": "Carta de Apoyo Financiero (si es patrocinado)",
+                "doc6": "Prueba de parentesco con el patrocinador",
+                "doc7": "Formulario de solicitud completado",
+                "doc8": "Certificado de Educación",
+                "doc9": "Tarifa de Solicitud ($100)",
+                "phase1-note": "Una vez que la escuela reciba todos los documentos, el agente solicitará el I-20 Pendiente al DSO.",
+                "phase2-title": "Presentar el I-539",
+                "locked-msg": "🔒 Complete el Paso 1 para desbloquear esta sección.",
+                "phase2-desc": "Después de que el I-20 Pendiente haya sido aprobado, proceda con estos pasos:",
+                "lawyer-warning": "<b>Altamente Recomendado:</b> Obtenga ayuda de un abogado de inmigración, ya que es un paso muy crítico.",
+                "step1": "Pagar la tarifa SEVIS I-901",
+                "step2": "Presentar el Formulario I-539",
+                "urgent-action": "<b>Urgente:</b> ¡Después de pagar el SEVIS y presentar el I-539, envíe a la escuela el recibo y la notificación INMEDIATAMENTE!",
+                "success-title": "¡Todo Listo!",
+                "success-sub": "Ha completado todos los pasos de preparación para su Cambio de Estatus."
+            },
+            zh: {
+                "hero-title": "身份转换",
+                "hero-sub": "B1/B2 ➔ F-1 学生签证",
+                "phase1-title": "获取 COS Pending I-20",
+                "phase1-desc": "准备好文件后打勾。完成此部分以解锁下一步。",
+                "doc1": "护照（未来六个月内有效）",
+                "doc2": "签证（在护照内）",
+                "doc3": "I-94 (持旅游签证入境应有 2-3 个月)",
+                "doc4": "银行对账单（至少 $15,000 美元）",
+                "doc5": "资金支持信（如果有人赞助）",
+                "doc6": "与赞助人的亲属关系证明",
+                "doc7": "填写完整的申请表",
+                "doc8": "学历证明",
+                "doc9": "申请费 ($100)",
+                "phase1-note": "一旦学校收到所有文件，代理将向该校的 DSO 申请 COS Pending I-20。",
+                "phase2-title": "提交 I-539",
+                "locked-msg": "🔒 完成第一步以解锁此部分。",
+                "phase2-desc": "在 COS Pending I-20 获批后，继续以下步骤：",
+                "lawyer-warning": "<b>强烈建议：</b> 请寻求移民律师的帮助，因为这是一个非常关键的步骤。",
+                "step1": "缴纳 SEVIS I-901 费用",
+                "step2": "提交 I-539 表格",
+                "urgent-action": "<b>紧急：</b> 在支付 SEVIS 费用并提交 I-539 后，立即向学校发送收据和通知！",
+                "success-title": "一切就绪！",
+                "success-sub": "您已完成身份转换的所有准备步骤。"
+            },
+            ko: {
+                "hero-title": "신분 변경",
+                "hero-sub": "B1/B2 ➔ F-1 학생 비자",
+                "phase1-title": "COS Pending I-20 받기",
+                "phase1-desc": "준비된 서류를 선택하세요. 다음 단계를 잠금 해제하려면 이 섹션을 완료하세요.",
+                "doc1": "여권 (6개월 이상 유효기간 남음)",
+                "doc2": "비자 (여권 내)",
+                "doc3": "I-94 (여행 비자로 2-3개월 체류 중이어야 함)",
+                "doc4": "은행 잔고 증명서 (최소 $15,000 USD)",
+                "doc5": "재정 지원서 (도와주는 사람이 있는 경우)",
+                "doc6": "재정 보증인과의 관계 증명서",
+                "doc7": "작성된 지원서 폼",
+                "doc8": "학력 증명서",
+                "doc9": "지원비 ($100)",
+                "phase1-note": "학교에서 모든 서류를 받으면, 에이전트가 해당 학교의 DSO에게 COS Pending I-20를 요청할 것입니다.",
+                "phase2-title": "I-539 신청하기",
+                "locked-msg": "🔒 이 섹션을 잠금 해제하려면 1단계를 완료하세요.",
+                "phase2-desc": "COS Pending I-20가 승인된 후, 다음 단계를 진행하세요:",
+                "lawyer-warning": "<b>강력히 권장함:</b> 매우 중요한 단계이므로 이민 변호사의 도움을 받는 것을 권장합니다.",
+                "step1": "SEVIS I-901 수수료 납부",
+                "step2": "I-539 폼 제출",
+                "urgent-action": "<b>긴급:</b> SEVIS를 지불하고 I-539를 제출한 후, 영수증과 통지서를 학교에 즉시 보내십시오!",
+                "success-title": "준비 완료!",
+                "success-sub": "신분 변경을 위한 모든 준비 단계를 완료했습니다."
+            },
+            th: {
+                "hero-title": "การเปลี่ยนสถานะ",
+                "hero-sub": "B1/B2 ➔ วีซ่านักเรียน F-1",
+                "phase1-title": "ขอ COS Pending I-20",
+                "phase1-desc": "เลือกเอกสารเมื่อคุณเตรียมพร้อม ทำส่วนนี้ให้เสร็จเพื่อปลดล็อกขั้นตอนถัดไป",
+                "doc1": "พาสปอร์ต (มีอายุเหลืออย่างน้อย 6 เดือน)",
+                "doc2": "วีซ่า (อยู่ในพาสปอร์ต)",
+                "doc3": "I-94 (ควรอยู่ในวีซ่าท่องเที่ยวมาแล้ว 2-3 เดือน)",
+                "doc4": "รายการเดินบัญชีธนาคาร (ขั้นต่ำ $15,000 USD)",
+                "doc5": "จดหมายรับรองทางการเงิน (หากมีสปอนเซอร์)",
+                "doc6": "เอกสารยืนยันความสัมพันธ์กับสปอนเซอร์",
+                "doc7": "แบบฟอร์มใบสมัครที่กรอกครบถ้วน",
+                "doc8": "ใบรับรองการศึกษา",
+                "doc9": "ค่าธรรมเนียมการสมัคร ($100)",
+                "phase1-note": "เมื่อโรงเรียนได้รับเอกสารทั้งหมด เอเจนต์จะทำการขอ COS Pending I-20 จาก DSO",
+                "phase2-title": "ยื่นแบบฟอร์ม I-539",
+                "locked-msg": "🔒 ทำขั้นตอนที่ 1 ให้เสร็จเพื่อปลดล็อกส่วนนี้",
+                "phase2-desc": "หลังจาก COS Pending I-20 ได้รับการอนุมัติ ให้ดำเนินการตามขั้นตอนนี้:",
+                "lawyer-warning": "<b>ขอแนะนำอย่างยิ่ง:</b> ขอความช่วยเหลือจากทนายความด้านคนเข้าเมือง เนื่องจากเป็นขั้นตอนที่สำคัญมาก",
+                "step1": "ชำระค่าธรรมเนียม SEVIS I-901",
+                "step2": "ยื่นแบบฟอร์ม I-539",
+                "urgent-action": "<b>ด่วน:</b> หลังจากชำระ SEVIS และยื่น I-539 แล้ว ให้ส่งใบเสร็จและใบแจ้งไปให้โรงเรียนทันที!",
+                "success-title": "เรียบร้อยแล้ว!",
+                "success-sub": "คุณได้ทำขั้นตอนการเตรียมตัวสำหรับการเปลี่ยนสถานะเสร็จสิ้นแล้ว"
+            }
+        };
+
+        function setLanguage(lang) {
+            // Update UI buttons
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Translate Text
+            const currentLang = translations[lang];
+            for (let key in currentLang) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerHTML = currentLang[key];
+                }
+            }
+        }
+    </script>
+</body>
+</html>
