@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change of Status Guide | B1/B2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #005A9C;
+            --secondary: #E6F3FF;
+            --accent: #FF6B6B;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --bg-color: #F8FAFC;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar & Language Tabs */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .lang-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: var(--bg-color);
+            border: 1px solid #E2E8F0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #003F6E 100%);
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .phase-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border-top: 5px solid var(--primary);
+        }
+
+        .phase-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phase-title span {
+            background: var(--secondary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        /* Interactive Checklist */
+        .checklist {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: var(--bg-color);
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checklist-item.checked span {
+            text-decoration: line-through;
+            color: #A0AEC0;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: var(--secondary);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .alert-box {
+            background: #FFF5F5;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #C53030;
+        }
+
+        .action-box {
+            background: #F0FFF4;
+            border: 2px dashed #48BB78;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #2F855A;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .phase-card { padding: 25px; }
+            .lang-tabs { justify-content: center; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">COS Guide</div>
+            <div class="lang-tabs">
+                <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" onclick="setLanguage('es')">ES</button>
+                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+                <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
+                <button class="lang-btn" onclick="setLanguage('th')">ไทย</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1 id="hero-title">Change of Status Guide</h1>
+        <p id="hero-sub">B1/B2 ➔ F-1 Student Visa Process</p>
+    </div>
+
+    <div class="container">
+        <div class="phase-card">
+            <h2 class="phase-title"><span>1</span> <div id="phase1-title">Get COS Pending I-20</div></h2>
+            <p style="margin-bottom: 20px; color: var(--text-light);" id="phase1-desc">Check off the documents as you gather them:</p>
+            
+            <ul class="checklist">
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc1">Passport (valid next six months)</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc2">Visa (inside the passport)</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc3">I-94 (should be on travel visa for 2-3 months)</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc4">Bank Statement (at least $15,000 USD)</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc5">Letter of Financial Support (if someone is helping)</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc6">Proof of relationship to the sponsor</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc7">Filled Application form</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc8">Education Certificate</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="doc9">Application Fee ($100)</span></label>
+            </ul>
+
+            <div class="info-box" id="phase1-note">
+                ℹ️ Once the school receives all the documents, the agent will request the COS Pending I-20 from the DSO of that school.
+            </div>
+        </div>
+
+        <div class="phase-card" style="border-top-color: #48BB78;">
+            <h2 class="phase-title"><span style="background: #F0FFF4; color: #48BB78;">2</span> <div id="phase2-title">File for the I-539</div></h2>
+            <p style="margin-bottom: 20px; color: var(--text-light);" id="phase2-desc">After the COS Pending I-20 has been approved, proceed with these steps:</p>
+
+            <div class="alert-box" id="lawyer-warning">
+                ⚠️ HIGHLY RECOMMENDED: Please get help from an immigration lawyer to do this, since it is a very critical and important step.
+            </div>
+
+            <ul class="checklist">
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="step1">Pay the SEVIS I-901 Fee</span></label>
+                <label class="checklist-item"><input type="checkbox" onclick="toggleStrike(this)"><span id="step2">File the Form I-539</span></label>
+            </ul>
+
+            <div class="action-box" id="urgent-action">
+                🚀 URGENT: After paying the SEVIS and filing the I-539, send the school the receipt and the I-539 notice IMMEDIATELY!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive Checklist functionality
+        function toggleStrike(checkbox) {
+            if(checkbox.checked) {
+                checkbox.parentElement.classList.add('checked');
+            } else {
+                checkbox.parentElement.classList.remove('checked');
+            }
+        }
+
+        // Translation Dictionary
+        const translations = {
+            en: {
+                "hero-title": "Change of Status Guide",
+                "hero-sub": "B1/B2 ➔ F-1 Student Visa Process",
+                "phase1-title": "Get COS Pending I-20",
+                "phase1-desc": "Check off the documents as you gather them:",
+                "doc1": "Passport (valid next six months)",
+                "doc2": "Visa (inside the passport)",
+                "doc3": "I-94 (should be on travel visa for 2-3 months)",
+                "doc4": "Bank Statement (at least $15,000 USD)",
+                "doc5": "Letter of Financial Support (if someone is helping)",
+                "doc6": "Proof of relationship to the sponsor",
+                "doc7": "Filled Application form",
+                "doc8": "Education Certificate",
+                "doc9": "Application Fee ($100)",
+                "phase1-note": "ℹ️ Once the school receives all the documents, the agent will request the COS Pending I-20 from the DSO of that school.",
+                "phase2-title": "File for the I-539",
+                "phase2-desc": "After the COS Pending I-20 has been approved, proceed with these steps:",
+                "lawyer-warning": "⚠️ HIGHLY RECOMMENDED: Please get help from an immigration lawyer to do this, since it is a very critical and important step.",
+                "step1": "Pay the SEVIS I-901 Fee",
+                "step2": "File the Form I-539",
+                "urgent-action": "🚀 URGENT: After paying the SEVIS and filing the I-539, send the school the receipt and the I-539 notice IMMEDIATELY!"
+            },
+            es: {
+                "hero-title": "Guía de Cambio de Estatus",
+                "hero-sub": "Proceso de Visa de Estudiante B1/B2 ➔ F-1",
+                "phase1-title": "Obtener I-20 Pendiente de COS",
+                "phase1-desc": "Marque los documentos a medida que los reúna:",
+                "doc1": "Pasaporte (válido por los próximos seis meses)",
+                "doc2": "Visa (dentro del pasaporte)",
+                "doc3": "I-94 (debe estar con visa de turista por 2-3 meses)",
+                "doc4": "Estado de Cuenta Bancario (al menos $15,000 USD)",
+                "doc5": "Carta de Apoyo Financiero (si alguien le ayuda)",
+                "doc6": "Prueba de parentesco con el patrocinador",
+                "doc7": "Formulario de solicitud completado",
+                "doc8": "Certificado de Educación",
+                "doc9": "Tarifa de Solicitud ($100)",
+                "phase1-note": "ℹ️ Una vez que la escuela recibe todos los documentos, el agente solicitará el I-20 Pendiente al DSO de la escuela.",
+                "phase2-title": "Presentar el Formulario I-539",
+                "phase2-desc": "Después de que el I-20 Pendiente haya sido aprobado, proceda con estos pasos:",
+                "lawyer-warning": "⚠️ ALTAMENTE RECOMENDADO: Obtenga ayuda de un abogado de inmigración para hacer esto, ya que es un paso muy crítico e importante.",
+                "step1": "Pagar la tarifa SEVIS I-901",
+                "step2": "Presentar el Formulario I-539",
+                "urgent-action": "🚀 URGENTE: ¡Después de pagar el SEVIS y presentar el I-539, envíe a la escuela el recibo y la notificación I-539 INMEDIATAMENTE!"
+            },
+            zh: {
+                "hero-title": "身份转换指南",
+                "hero-sub": "B1/B2 ➔ F-1 学生签证流程",
+                "phase1-title": "获取 COS Pending I-20",
+                "phase1-desc": "准备好文件后打勾：",
+                "doc1": "护照（未来六个月内有效）",
+                "doc2": "签证（在护照内）",
+                "doc3": "I-94 (持旅游签证入境应有 2-3 个月)",
+                "doc4": "银行对账单（至少 $15,000 美元）",
+                "doc5": "资金支持信（如果有人赞助）",
+                "doc6": "与赞助人的亲属关系证明",
+                "doc7": "填写完整的申请表",
+                "doc8": "学历证明",
+                "doc9": "申请费 ($100)",
+                "phase1-note": "ℹ️ 一旦学校收到所有文件，代理将向该校的 DSO 申请 COS Pending I-20。",
+                "phase2-title": "提交 I-539 申请",
+                "phase2-desc": "在 COS Pending I-20 获批后，继续以下步骤：",
+                "lawyer-warning": "⚠️ 强烈建议：请寻求移民律师的帮助，因为这是一个非常关键和重要的步骤。",
+                "step1": "缴纳 SEVIS I-901 费用",
+                "step2": "提交 I-539 表格",
+                "urgent-action": "🚀 紧急：在支付 SEVIS 费用并提交 I-539 后，立即向学校发送收据和 I-539 通知！"
+            },
+            ko: {
+                "hero-title": "신분 변경 가이드",
+                "hero-sub": "B1/B2 ➔ F-1 학생 비자 절차",
+                "phase1-title": "COS Pending I-20 받기",
+                "phase1-desc": "준비된 서류를 체크하세요:",
+                "doc1": "여권 (6개월 이상 유효기간 남음)",
+                "doc2": "비자 (여권 내)",
+                "doc3": "I-94 (여행 비자로 2-3개월 체류 중이어야 함)",
+                "doc4": "은행 잔고 증명서 (최소 $15,000 USD)",
+                "doc5": "재정 지원서 (도와주는 사람이 있는 경우)",
+                "doc6": "재정 보증인과의 관계 증명서",
+                "doc7": "작성된 지원서 폼",
+                "doc8": "학력 증명서",
+                "doc9": "지원비 ($100)",
+                "phase1-note": "ℹ️ 학교에서 모든 서류를 받으면, 에이전트가 해당 학교의 DSO에게 COS Pending I-20를 요청할 것입니다.",
+                "phase2-title": "I-539 신청하기",
+                "phase2-desc": "COS Pending I-20가 승인된 후, 다음 단계를 진행하세요:",
+                "lawyer-warning": "⚠️ 강력히 권장함: 매우 중요하고 결정적인 단계이므로 이민 변호사의 도움을 받는 것을 권장합니다.",
+                "step1": "SEVIS I-901 수수료 납부",
+                "step2": "I-539 폼 제출",
+                "urgent-action": "🚀 긴급: SEVIS를 지불하고 I-539를 제출한 후, 영수증과 I-539 통지서를 학교에 즉시 보내십시오!"
+            },
+            th: {
+                "hero-title": "คู่มือการเปลี่ยนสถานะ",
+                "hero-sub": "ขั้นตอนการทำวีซ่านักเรียน B1/B2 ➔ F-1",
+                "phase1-title": "ขอ COS Pending I-20",
+                "phase1-desc": "ขีดเช็คเอกสารเมื่อคุณเตรียมพร้อม:",
+                "doc1": "พาสปอร์ต (มีอายุเหลืออย่างน้อย 6 เดือน)",
+                "doc2": "วีซ่า (อยู่ในพาสปอร์ต)",
+                "doc3": "I-94 (ควรอยู่ในวีซ่าท่องเที่ยวมาแล้ว 2-3 เดือน)",
+                "doc4": "รายการเดินบัญชีธนาคาร (ขั้นต่ำ $15,000 USD)",
+                "doc5": "จดหมายรับรองทางการเงิน (หากมีสปอนเซอร์)",
+                "doc6": "เอกสารยืนยันความสัมพันธ์กับสปอนเซอร์",
+                "doc7": "แบบฟอร์มใบสมัครที่กรอกครบถ้วน",
+                "doc8": "ใบรับรองการศึกษา",
+                "doc9": "ค่าธรรมเนียมการสมัคร ($100)",
+                "phase1-note": "ℹ️ เมื่อโรงเรียนได้รับเอกสารทั้งหมด เอเจนต์จะทำการขอ COS Pending I-20 จาก DSO ของโรงเรียนนั้น",
+                "phase2-title": "ยื่นแบบฟอร์ม I-539",
+                "phase2-desc": "หลังจาก COS Pending I-20 ได้รับการอนุมัติ ให้ดำเนินการตามขั้นตอนนี้:",
+                "lawyer-warning": "⚠️ ขอแนะนำอย่างยิ่ง: โปรดขอความช่วยเหลือจากทนายความด้านคนเข้าเมืองสำหรับขั้นตอนนี้ เนื่องจากมีความสำคัญและละเอียดอ่อนมาก",
+                "step1": "ชำระค่าธรรมเนียม SEVIS I-901",
+                "step2": "ยื่นแบบฟอร์ม I-539",
+                "urgent-action": "🚀 ด่วน: หลังจากชำระ SEVIS และยื่น I-539 แล้ว ให้ส่งใบเสร็จและใบแจ้ง I-539 ไปให้โรงเรียนทันที!"
+            }
+        };
+
+        // Language toggle functionality
+        function setLanguage(lang) {
+            // Update active button styling
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Apply translations
+            const currentLang = translations[lang];
+            for (let key in currentLang) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerHTML = currentLang[key];
+                }
+            }
+        }
+    </script>
+</body>
+</html>
