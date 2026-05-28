@@ -3,535 +3,958 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change of Status Guide | B1/B2</title>
+    <title>Change of Status Guide | DreamIT ESL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            /* Apple Design System Colors */
-            --bg-color: #F5F5F7;
-            --card-bg: #FFFFFF;
-            --text-primary: #1D1D1F;
-            --text-secondary: #86868B;
-            --apple-blue: #0071E3;
-            --apple-blue-hover: #0077ED;
-            --apple-green: #34C759;
-            --apple-red: #FF3B30;
-            --apple-orange: #FF9500;
-            --border-color: #E5E5EA;
+            --bg-color: #fafafa;
+            --text-color: #050411;
+            --accent-color: #e6e6e6;
+            --success-color: #10b981;
+            --danger-color: #ff4a4a;
+            --warning-bg: rgba(255, 149, 0, 0.1);
+            --warning-border: #ff9500;
+            --glow-color: rgba(80, 79, 237, 0.15);
+            --liquid-primary: rgba(80, 79, 237, 0.85);
+            --liquid-secondary: rgba(168, 85, 247, 0.4);
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Syne', sans-serif;
+            --transition-smooth: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #050411;
+            --text-color: #ffffff;
+            --accent-color: #333333;
+            --glow-color: rgba(80, 79, 237, 0.25);
+            --warning-bg: rgba(255, 149, 0, 0.15);
+            --liquid-primary: rgba(80, 79, 237, 0.9);
+            --liquid-secondary: rgba(168, 85, 247, 0.5);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
         }
 
         body {
+            font-family: var(--font-main);
             background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.47059;
-            font-weight: 400;
-            letter-spacing: -0.022em;
-            padding-bottom: 100px;
+            color: var(--text-color);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none; 
+            transition: background-color 0.8s var(--transition-smooth), color 0.8s var(--transition-smooth);
+            line-height: 1.5;
         }
 
-        /* Glassmorphism Header */
-        header {
-            position: sticky;
+        /* Dual Cursor System */
+        .cursor {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.72);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s var(--transition-smooth), height 0.3s var(--transition-smooth), background-color 0.3s var(--transition-smooth);
+            mix-blend-mode: difference;
         }
 
-        .nav-container {
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 12px 20px;
+        .cursor.hovering {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+        }
+
+        .cursor-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--glow-color) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9998;
+            transition: background 0.8s var(--transition-smooth);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        a, button {
+            text-decoration: none;
+            color: inherit;
+            cursor: none;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            z-index: 100;
+            transition: padding 0.5s ease, background 0.5s ease;
+        }
+
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            mix-blend-mode: difference;
+            color: #fff;
+        }
+
+        header.scrolled {
+            padding: 1rem 4rem;
+            background: rgba(5, 4, 17, 0.05);
+            backdrop-filter: blur(15px);
+        }
+
+        header.scrolled .header-top {
+            mix-blend-mode: normal;
+            color: var(--text-color);
         }
 
         .logo {
-            font-size: 19px;
-            font-weight: 600;
-            letter-spacing: -0.021em;
-            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            font-family: var(--font-display);
         }
 
-        /* Language Segmented Control (Apple Style) */
-        .lang-control {
+        /* Language Switcher */
+        .nav-scroll {
             display: flex;
-            background: #E3E3E8;
-            padding: 2px;
-            border-radius: 8px;
+            gap: 0.75rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 0.5rem;
         }
+        .nav-scroll::-webkit-scrollbar { display: none; }
 
         .lang-btn {
-            background: transparent;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.2s ease;
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            opacity: 0.7;
         }
 
+        header.scrolled .lang-btn { border-color: var(--text-color); }
+        .lang-btn:hover { opacity: 1; }
         .lang-btn.active {
-            background: var(--card-bg);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background: var(--text-color);
+            color: var(--bg-color);
+            border-color: var(--text-color);
+            opacity: 1;
         }
 
-        /* Progress Bar */
-        .progress-container {
-            height: 3px;
-            background: transparent;
-            width: 100%;
-            position: absolute;
-            bottom: -1px;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: var(--apple-blue);
-            width: 0%;
-            transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        /* Typography & Layout */
-        .hero {
-            text-align: center;
-            padding: 80px 20px 50px;
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            letter-spacing: -0.005em;
-            margin-bottom: 12px;
-        }
-
-        .hero p {
-            font-size: 24px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
+        /* Layout Containers */
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 4rem;
+        }
+        .section-pad { padding: 6rem 0; }
+        
+        #content-wrapper {
+            opacity: 1;
+            transition: opacity 0.4s ease;
         }
 
-        /* Phase Cards */
-        .phase-card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s var(--transition-smooth), transform 1s var(--transition-smooth);
         }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .phase-header {
+        /* Hero */
+        .hero {
+            min-height: 70vh;
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            position: relative;
+            padding-top: 8rem;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            line-height: 1;
+            letter-spacing: -2px;
+            max-width: 900px;
+        }
+        .hero-text-line { overflow: hidden; display: block; }
+        .hero-text-line span {
+            display: block;
+            transform: translateY(100%);
+            animation: slideUp 1s var(--transition-smooth) forwards;
+        }
+        .hero-text-line:nth-child(2) span { animation-delay: 0.15s; }
+        @keyframes slideUp { to { transform: translateY(0); } }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #666;
+            margin-top: 1.5rem;
+            max-width: 600px;
+            animation: fadeIn 1.2s ease forwards 0.4s;
+            opacity: 0;
+        }
+        [data-theme="dark"] .hero-subtitle { color: #aaa; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        /* Interactive Fluid Sandbox / Bubbly Water (Hero Graphic Replacement) */
+        .fluid-sandbox {
+            position: absolute;
+            right: -5%;
+            top: 10%;
+            width: 550px;
+            height: 550px;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            overflow: hidden;
+            background: transparent;
+            z-index: -1;
+            opacity: 0.85;
+            animation: morphShape 15s ease-in-out infinite alternate;
+            filter: url("#liquid-goo"); 
+            transition: background 0.8s var(--transition-smooth);
+            pointer-events: auto; /* Allow interaction */
+        }
+        
+        .fluid-sandbox canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
 
-        .phase-badge {
-            background: var(--apple-blue);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+        @keyframes morphShape {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        }
+
+        /* SVG Filter Container */
+        .svg-filter-container {
+            position: absolute;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Sticky Progress Section */
+        .progress-sticky {
+            position: sticky;
+            top: 110px;
+            background: var(--bg-color);
+            padding: 1.5rem 0;
+            z-index: 90;
+            border-bottom: 1px solid var(--accent-color);
+            transition: background 0.8s var(--transition-smooth);
+        }
+        .progress-track {
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--text-color);
+            width: 0%;
+            transition: width 0.5s var(--transition-smooth), background-color 0.3s;
+        }
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Section Architecture */
+        .section-header-block {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-badge {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 800;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--text-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 15px;
-            margin-right: 16px;
+            border-radius: 50%;
+        }
+        .section-header {
+            font-size: 3rem;
+            letter-spacing: -1px;
+        }
+        .section-intro {
+            font-size: 1.25rem;
+            opacity: 0.7;
+            margin-bottom: 3rem;
+            max-width: 800px;
         }
 
-        .phase-card.locked .phase-badge {
-            background: var(--text-secondary);
+        /* Sequential Locking States */
+        .phase-card {
+            transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.6s ease;
         }
-
-        .phase-title {
-            font-size: 28px;
-            font-weight: 600;
-        }
-
-        .phase-desc {
-            font-size: 17px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            margin-top: -10px;
-        }
-
-        /* Locked State */
-        .locked {
-            opacity: 0.5;
+        .phase-card.locked {
+            opacity: 0.3;
             pointer-events: none;
             filter: grayscale(100%);
             transform: scale(0.98);
         }
-
         .locked-message {
             display: none;
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 500;
-            margin-top: -15px;
-            margin-bottom: 20px;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--danger-color);
+            margin-bottom: 2rem;
         }
+        .phase-card.locked .locked-message { display: block; }
 
-        .locked .locked-message {
-            display: block;
-        }
-
-        /* Interactive Checklist */
+        /* Checklist Architecture */
         .checklist {
-            list-style: none;
+            border-top: 2px solid var(--text-color);
+            margin-bottom: 2.5rem;
         }
-
         .checklist-item {
             display: flex;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: background-color 0.2s;
-            position: relative;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 2rem 0;
+            border-bottom: 1px dashed var(--accent-color);
+            transition: opacity 0.3s;
         }
-
-        .checklist-item:last-child {
-            border-bottom: none;
-        }
-
-        .checklist-item:hover .checkbox-circle {
-            border-color: var(--apple-blue);
-        }
-
-        .checkbox-circle {
-            width: 24px;
-            height: 24px;
+        .checklist-item input[type="checkbox"] {
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--text-color);
             border-radius: 50%;
-            border: 2px solid #C7C7CC;
-            margin-right: 16px;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: grid;
+            place-content: center;
+            margin-top: 2px;
             flex-shrink: 0;
-        }
-
-        .checkbox-circle::after {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 8px;
-            width: 4px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg) scale(0);
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .checklist-item.checked .checkbox-circle {
-            background-color: var(--apple-blue);
-            border-color: var(--apple-blue);
-        }
-
-        .checklist-item.checked .checkbox-circle::after {
-            transform: rotate(45deg) scale(1);
-        }
-
-        .item-text {
-            font-size: 17px;
-            font-weight: 500;
-            color: var(--text-primary);
             transition: all 0.3s ease;
         }
-
+        .checklist-item input[type="checkbox"]::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            transform: scale(0);
+            border-radius: 50%;
+            transition: 120ms transform ease-in-out;
+            background-color: var(--bg-color);
+        }
+        .checklist-item input[type="checkbox"]:checked {
+            background-color: var(--text-color);
+            border-color: var(--text-color);
+        }
+        .checklist-item input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+        .item-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
         .checklist-item.checked .item-text {
-            color: var(--text-secondary);
+            opacity: 0.4;
             text-decoration: line-through;
         }
 
-        /* Hidden Native Checkbox */
-        .checklist-item input[type="checkbox"] {
-            display: none;
-        }
-
-        /* Callout Boxes */
+        /* Callouts */
         .callout {
-            padding: 16px 20px;
+            padding: 2rem;
             border-radius: 12px;
-            margin-top: 24px;
-            font-size: 15px;
+            font-size: 1.1rem;
             font-weight: 500;
             display: flex;
-            gap: 12px;
+            gap: 1.25rem;
             align-items: flex-start;
+            margin-top: 2rem;
+            border: 1px solid var(--accent-color);
         }
-
-        .callout-info {
-            background-color: rgba(0, 113, 227, 0.08);
-            color: var(--apple-blue);
-        }
-
+        .callout-info { background-color: var(--accent-color); }
         .callout-warning {
-            background-color: rgba(255, 149, 0, 0.1);
-            color: #CC7A00;
+            background-color: var(--warning-bg);
+            border-color: var(--warning-border);
+            color: var(--text-color);
         }
-
         .callout-urgent {
-            background-color: rgba(255, 59, 48, 0.1);
-            color: var(--apple-red);
-            animation: pulse 2s infinite;
+            background-color: rgba(255, 45, 85, 0.1);
+            border-color: var(--danger-color);
+            color: var(--text-color);
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
-        }
-
-        /* Success Message */
+        /* Final Success Box */
         #success-message {
+            display: none;
             text-align: center;
+            padding: 4rem 2rem;
+            border: 1px solid var(--accent-color);
+            border-radius: 16px;
+            margin-top: 4rem;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            display: none;
-            padding: 40px;
+            transition: all 0.6s var(--transition-smooth);
         }
-
         #success-message.visible {
+            display: block;
             opacity: 1;
             transform: translateY(0);
-            display: block;
         }
+        .success-icon { font-size: 4rem; display: block; margin-bottom: 1rem; }
 
-        .success-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            display: block;
+        footer { padding: 4rem 0 2rem; text-align: center; border-top: 1px solid var(--accent-color); margin-top: 4rem; }
+
+        @media (max-width: 1024px) {
+            header { padding: 1.5rem 2rem; }
+            .container { padding: 0 2rem; }
+            .fluid-sandbox {
+                width: 400px;
+                height: 400px;
+                top: auto;
+                bottom: -10%;
+                opacity: 0.4;
+                z-index: -2;
+            }
         }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 40px; }
-            .hero p { font-size: 20px; }
-            .phase-card { padding: 24px; }
-            .lang-control { overflow-x: auto; max-width: 100%; white-space: nowrap; }
-            .nav-container { flex-direction: column; gap: 15px; }
+            .hero h1 { font-size: 3.5rem; }
+            .section-header { font-size: 2.25rem; }
+            .checklist-item { gap: 1rem; }
+            .item-text { font-size: 1.1rem; }
+            .cursor { display: none; }
+            .fluid-sandbox {
+                width: 300px;
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="nav-container">
-            <div class="logo">COS Guide</div>
-            <div class="lang-control">
-                <button class="lang-btn active" onclick="setLanguage('en')">English</button>
-                <button class="lang-btn" onclick="setLanguage('es')">Español</button>
-                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
-                <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
-                <button class="lang-btn" onclick="setLanguage('th')">ไทย</button>
-            </div>
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-    </header>
-
-    <div class="hero">
-        <h1 id="hero-title">Change of Status</h1>
-        <p id="hero-sub">B1/B2 ➔ F-1 Student Visa</p>
+    <div class="svg-filter-container">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <defs>
+                <filter id="liquid-goo">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                    <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+                </filter>
+            </defs>
+        </svg>
     </div>
 
-    <div class="container">
-        
-        <div class="phase-card" id="phase1">
-            <div class="phase-header">
-                <div class="phase-badge">1</div>
-                <h2 class="phase-title" id="phase1-title">Get COS Pending I-20</h2>
-            </div>
-            <p class="phase-desc" id="phase1-desc">Select documents as you gather them. Complete this section to unlock the next step.</p>
-            
-            <ul class="checklist" id="list1">
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc1">Passport (valid next six months)</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc2">Visa (inside the passport)</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc3">I-94 (should be on travel visa for 2-3 months)</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc4">Bank Statement (at least $15,000 USD)</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc5">Letter of Financial Support (if sponsored)</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc6">Proof of relationship to the sponsor</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc7">Filled Application form</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc8">Education Certificate</span>
-                </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 1)">
-                    <input type="checkbox" class="doc-check">
-                    <div class="checkbox-circle"></div>
-                    <span class="item-text" id="doc9">Application Fee ($100)</span>
-                </label>
-            </ul>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="cursor" id="custom-cursor"></div>
 
-            <div class="callout callout-info">
-                <span>ℹ️</span>
-                <span id="phase1-note">Once the school receives all documents, the agent will request the COS Pending I-20 from the DSO.</span>
+    <header id="main-header">
+        <div class="header-top">
+            <a href="#" class="logo">DreamIT ESL</a>
+        </div>
+        <nav class="nav-scroll">
+            <button class="lang-btn active hover-target" onclick="setLanguage('en')">english</button>
+            <button class="lang-btn hover-target" onclick="setLanguage('es')">español</button>
+            <button class="lang-btn hover-target" onclick="setLanguage('zh')">中文</button>
+            <button class="lang-btn hover-target" onclick="setLanguage('ko')">한국어</button>
+            <button class="lang-btn hover-target" onclick="setLanguage('th')">ไทย</button>
+        </nav>
+    </header>
+
+    <main id="content-wrapper">
+        
+        <section class="hero container" data-theme-trigger="light">
+            <div class="fluid-sandbox hover-target">
+                <canvas id="fluid-canvas"></canvas>
+            </div>
+            <div>
+                <h1 id="hero-title">
+                    <span class="hero-text-line"><span>Change of</span></span>
+                    <span class="hero-text-line"><span>Status.</span></span>
+                </h1>
+                <p class="hero-subtitle" id="hero-sub">B1/B2 ➔ F-1 Student Visa</p>
+            </div>
+        </section>
+
+        <div class="progress-sticky">
+            <div class="container">
+                <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+                <div class="progress-info">
+                    <span style="font-family: var(--font-main); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Status Progression</span>
+                    <span id="progress-percent">0%</span>
+                </div>
             </div>
         </div>
 
-        <div class="phase-card locked" id="phase2">
-            <div class="phase-header">
-                <div class="phase-badge" style="background: var(--apple-green);">2</div>
-                <h2 class="phase-title" id="phase2-title">File for the I-539</h2>
+        <section class="section-pad container reveal" id="phase1" data-theme-trigger="light">
+            <div class="section-header-block">
+                <div class="section-badge">1</div>
+                <h2 class="section-header" id="phase1-title">Get COS Pending I-20</h2>
             </div>
+            <p class="section-intro" id="phase1-desc">Select documents as you gather them. Complete this section to unlock the next step.</p>
             
+            <div class="checklist" id="list1">
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc1">Passport (valid next six months)</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc2">Visa (inside the passport)</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc3">I-94 (should be on travel visa for 2-3 months)</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc4">Bank Statement (at least $15,000 USD)</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc5">Letter of Financial Support (if sponsored)</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc6">Proof of relationship to the sponsor</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc7">Filled Application form</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc8">Education Certificate</span>
+                </label>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                    <span class="item-text" id="doc9">Application Fee ($100)</span>
+                </label>
+            </div>
+
+            <div class="callout callout-info">
+                <span id="phase1-note">Once the school receives all documents, the agent will request the COS Pending I-20 from the DSO.</span>
+            </div>
+        </section>
+
+        <section class="section-pad container reveal phase-card locked" id="phase2" data-theme-trigger="dark">
             <div class="locked-message" id="locked-msg">🔒 Complete Step 1 to unlock this section.</div>
             
-            <p class="phase-desc" id="phase2-desc">After the COS Pending I-20 has been approved, proceed with these steps:</p>
+            <div class="section-header-block">
+                <div class="section-badge" style="border-color: currentColor;">2</div>
+                <h2 class="section-header" id="phase2-title">File for the I-539</h2>
+            </div>
+            <p class="section-intro" id="phase2-desc">After the COS Pending I-20 has been approved, proceed with these steps:</p>
 
             <div class="callout callout-warning">
-                <span>⚠️</span>
                 <span id="lawyer-warning"><b>Highly Recommended:</b> Get help from an immigration lawyer to do this, as it is a very critical step.</span>
             </div>
 
-            <ul class="checklist" id="list2">
-                <label class="checklist-item" onclick="toggleCheck(this, 2)">
-                    <input type="checkbox" class="step-check">
-                    <div class="checkbox-circle" style="border-color: #C7C7CC;"></div>
+            <div class="checklist" id="list2" style="margin-top: 3rem;">
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="step-check" onchange="handleCheck(this)">
                     <span class="item-text" id="step1">Pay the SEVIS I-901 Fee</span>
                 </label>
-                <label class="checklist-item" onclick="toggleCheck(this, 2)">
-                    <input type="checkbox" class="step-check">
-                    <div class="checkbox-circle" style="border-color: #C7C7CC;"></div>
+                <label class="checklist-item hover-target">
+                    <input type="checkbox" class="step-check" onchange="handleCheck(this)">
                     <span class="item-text" id="step2">File the Form I-539</span>
                 </label>
-            </ul>
+            </div>
 
             <div class="callout callout-urgent">
-                <span>🚀</span>
                 <span id="urgent-action"><b>Urgent:</b> After paying the SEVIS and filing the I-539, send the school the receipt and the I-539 notice immediately!</span>
             </div>
-        </div>
+        </section>
 
-        <div id="success-message">
-            <span class="success-icon">🎉</span>
-            <h2 id="success-title">You're All Set!</h2>
-            <p id="success-sub" style="color: var(--text-secondary);">You have completed all the preparation steps for your COS.</p>
-        </div>
+        <section class="container section-pad">
+            <div id="success-message">
+                <span class="success-icon">🎉</span>
+                <h2 id="success-title">You're All Set!</h2>
+                <p id="success-sub">You have completed all the preparation steps for your COS.</p>
+            </div>
+        </section>
 
-    </div>
+    </main>
+
+    <footer class="main-footer">
+        <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem;">DreamIT ESL</h2>
+        <p style="color: #666; font-size: 0.9rem;">Change of Status Guidelines &copy; 2024</p>
+    </footer>
 
     <script>
-        // Interactive Logic
-        const totalItems = 11; // 9 in Phase 1 + 2 in Phase 2
+        // Dual Cursor Control Configuration
+        const dotCursor = document.getElementById('custom-cursor');
+        const glowCursor = document.getElementById('cursorGlow');
 
-        function toggleCheck(element, phase) {
-            // Prevent clicking phase 2 if locked
-            if (phase === 2 && document.getElementById('phase2').classList.contains('locked')) {
-                event.preventDefault();
-                return;
+        document.addEventListener('mousemove', (e) => {
+            dotCursor.style.left = e.clientX + 'px';
+            dotCursor.style.top = e.clientY + 'px';
+            glowCursor.style.left = e.clientX + 'px';
+            glowCursor.style.top = e.clientY + 'px';
+        });
+
+        function attachHoverEvents() {
+            document.querySelectorAll('.hover-target, a, button, input[type="checkbox"]').forEach(target => {
+                target.addEventListener('mouseenter', () => dotCursor.classList.add('hovering'));
+                target.addEventListener('mouseleave', () => dotCursor.classList.remove('hovering'));
+            });
+        }
+        attachHoverEvents();
+
+        // Scroll Engine Reveals
+        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+        document.querySelectorAll('.reveal').forEach(el => revealOnScroll.observe(el));
+
+        // Dynamic Theme Intersection Configurations
+        const body = document.body;
+        const themeObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                // Ignore background canvas transformations if target section remains constrained/locked
+                if (entry.target.id === 'phase2' && entry.target.classList.contains('locked')) return;
+                
+                if (entry.isIntersecting) {
+                    const theme = entry.target.getAttribute('data-theme-trigger');
+                    if (theme === 'dark') body.setAttribute('data-theme', 'dark');
+                    else body.removeAttribute('data-theme');
+                }
+            });
+        }, { threshold: 0.25 });
+        document.querySelectorAll('[data-theme-trigger]').forEach(trigger => themeObserver.observe(trigger));
+
+        // Interactive Bubbly Liquid Glass Physics
+        const canvas = document.getElementById('fluid-canvas');
+        const ctx = canvas.getContext('2d');
+        const sandbox = canvas.parentElement;
+
+        let width = canvas.width = sandbox.offsetWidth;
+        let height = canvas.height = sandbox.offsetHeight;
+
+        let fluidMouse = { x: null, y: null, oldX: null, oldY: null, vx: 0, vy: 0, active: false };
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = sandbox.offsetWidth;
+            height = canvas.height = sandbox.offsetHeight;
+            initLiquidEngine();
+        });
+
+        sandbox.addEventListener('mousemove', (e) => {
+            const rect = sandbox.getBoundingClientRect();
+            fluidMouse.oldX = fluidMouse.x;
+            fluidMouse.oldY = fluidMouse.y;
+            fluidMouse.x = e.clientX - rect.left;
+            fluidMouse.y = e.clientY - rect.top;
+            
+            if (fluidMouse.oldX !== null) {
+                fluidMouse.vx = fluidMouse.x - fluidMouse.oldX;
+                fluidMouse.vy = fluidMouse.y - fluidMouse.oldY;
+            }
+            fluidMouse.active = true;
+        });
+
+        sandbox.addEventListener('mouseleave', () => {
+            fluidMouse.active = false;
+            fluidMouse.x = null;
+            fluidMouse.y = null;
+        });
+
+        // Spring nodes for water surface
+        class SpringNode {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.baseY = y;
+                this.vy = 0;
+                this.targetY = y;
+                this.elasticity = 0.03; 
+                this.damping = 0.85;   
+            }
+            update(mouseObj) {
+                if (mouseObj.x !== null) {
+                    let dx = mouseObj.x - this.x;
+                    let dy = mouseObj.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 120) {
+                        let proximityForce = (1 - (distance / 120)) * 12;
+                        this.vy += (mouseObj.vy * 0.1) + (proximityForce * (mouseObj.y > this.y ? 0.3 : -0.3));
+                    }
+                }
+                let force = -this.elasticity * (this.y - this.baseY);
+                this.vy += force;
+                this.vy *= this.damping;
+                this.y += this.vy;
+            }
+        }
+
+        // Bubbles
+        class BubbleParticle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height; 
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + Math.random() * 40 + 20;
+                this.radius = Math.random() * 15 + 5;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.wobbleSpeed = Math.random() * 0.05 + 0.01;
+                this.wobbleRange = Math.random() * 2 + 1;
+                this.wobbleAngle = Math.random() * Math.PI * 2;
+            }
+            update(waveNodes) {
+                this.y -= this.speedY;
+                this.wobbleAngle += this.wobbleSpeed;
+                this.x += Math.sin(this.wobbleAngle) * this.wobbleRange * 0.5;
+
+                if (fluidMouse.x !== null) {
+                    let dx = fluidMouse.x - this.x;
+                    let dy = fluidMouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 80) {
+                        let force = (1 - (distance / 80)) * 2;
+                        this.x += fluidMouse.vx > 0 ? force : -force;
+                    }
+                }
+
+                let matchingNodeIndex = Math.min(Math.max(Math.floor((this.x / width) * waveNodes.length), 0), waveNodes.length - 1);
+                let currentWaveHeight = waveNodes[matchingNodeIndex] ? waveNodes[matchingNodeIndex].y : height * 0.45;
+
+                if (this.y < currentWaveHeight + 10) {
+                    if (waveNodes[matchingNodeIndex]) {
+                        waveNodes[matchingNodeIndex].vy += (this.radius * -0.1);
+                    }
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalCompositeOperation = 'source-over';
+                
+                let glassGrad = ctx.createRadialGradient(
+                    this.x - this.radius * 0.2, this.y - this.radius * 0.3, this.radius * 0.1,
+                    this.x, this.y, this.radius
+                );
+                
+                const currentTheme = body.getAttribute('data-theme');
+                if (currentTheme === 'dark') {
+                    glassGrad.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+                    glassGrad.addColorStop(0.2, 'rgba(80, 79, 237, 0.2)');
+                    glassGrad.addColorStop(1, 'rgba(255, 255, 255, 0.05)');
+                } else {
+                    glassGrad.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+                    glassGrad.addColorStop(0.3, 'rgba(80, 79, 237, 0.15)');
+                    glassGrad.addColorStop(1, 'rgba(80, 79, 237, 0.02)');
+                }
+
+                ctx.beginPath();
+                ctx.fillStyle = glassGrad;
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.strokeStyle = currentTheme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(80, 79, 237, 0.2)';
+                ctx.lineWidth = 1;
+                ctx.arc(this.x, this.y, this.radius - 1, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.arc(this.x - this.radius * 0.3, this.y - this.radius * 0.3, this.radius * 0.15, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        let nodes = [];
+        let particles = [];
+        const totalNodes = 30; 
+        const totalParticles = 25; 
+
+        function initLiquidEngine() {
+            nodes = [];
+            let verticalBaseline = height * 0.55; 
+            let sectionStride = width / (totalNodes - 1);
+            for (let i = 0; i < totalNodes; i++) nodes.push(new SpringNode(i * sectionStride, verticalBaseline));
+            particles = [];
+            for (let i = 0; i < totalParticles; i++) particles.push(new BubbleParticle());
+        }
+
+        function runLiquidEngineLoop() {
+            ctx.clearRect(0, 0, width, height);
+            const activeThemeDark = body.getAttribute('data-theme') === 'dark';
+            
+            fluidMouse.vx *= 0.9;
+            fluidMouse.vy *= 0.9;
+
+            for (let i = 0; i < nodes.length; i++) nodes[i].update(fluidMouse);
+
+            let iterativePasses = 8; 
+            for (let p = 0; p < iterativePasses; p++) {
+                for (let i = 0; i < nodes.length; i++) {
+                    if (i > 0) {
+                        let leftDelta = 0.12 * (nodes[i].y - nodes[i - 1].y);
+                        nodes[i - 1].vy += leftDelta;
+                        nodes[i].y -= leftDelta;
+                    }
+                    if (i < nodes.length - 1) {
+                        let rightDelta = 0.12 * (nodes[i].y - nodes[i + 1].y);
+                        nodes[i + 1].vy += rightDelta;
+                        nodes[i].y -= rightDelta;
+                    }
+                }
             }
 
-            const checkbox = element.querySelector('input[type="checkbox"]');
+            ctx.save();
+            let computedPrimaryLiquid = getComputedStyle(document.documentElement).getPropertyValue('--liquid-primary').trim();
+            let computedSecondaryLiquid = getComputedStyle(document.documentElement).getPropertyValue('--liquid-secondary').trim();
+
+            let bodyGradient = ctx.createLinearGradient(0, height * 0.3, width, height);
+            bodyGradient.addColorStop(0, computedPrimaryLiquid);
+            bodyGradient.addColorStop(0.6, computedSecondaryLiquid);
+            bodyGradient.addColorStop(1, activeThemeDark ? '#020107' : '#f0effd');
+
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+            ctx.lineTo(nodes[0].x, nodes[0].y);
             
-            // Give a tiny delay for visual tap feeling
-            setTimeout(() => {
-                if(checkbox.checked) {
-                    element.classList.add('checked');
-                } else {
-                    element.classList.remove('checked');
-                }
-                updateProgress();
-            }, 50);
+            for (let i = 0; i < nodes.length - 1; i++) {
+                let midPointX = (nodes[i].x + nodes[i + 1].x) * 0.5;
+                let midPointY = (nodes[i].y + nodes[i + 1].y) * 0.5;
+                ctx.quadraticCurveTo(nodes[i].x, nodes[i].y, midPointX, midPointY);
+            }
+            
+            ctx.lineTo(nodes[nodes.length - 1].x, nodes[nodes.length - 1].y);
+            ctx.lineTo(width, height);
+            ctx.closePath();
+            ctx.fillStyle = bodyGradient;
+            ctx.fill();
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(nodes);
+                particles[i].draw();
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(0, nodes[0].y);
+            for (let i = 0; i < nodes.length - 1; i++) {
+                let midPointX = (nodes[i].x + nodes[i + 1].x) * 0.5;
+                let midPointY = (nodes[i].y + nodes[i + 1].y) * 0.5;
+                ctx.quadraticCurveTo(nodes[i].x, nodes[i].y, midPointX, midPointY);
+            }
+            ctx.lineTo(nodes[nodes.length - 1].x, nodes[nodes.length - 1].y);
+            ctx.strokeStyle = activeThemeDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(5, 4, 17, 0.8)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.restore();
+            requestAnimationFrame(runLiquidEngineLoop);
+        }
+
+        initLiquidEngine();
+        runLiquidEngineLoop();
+
+
+        // Workflow Metrics Management
+        const totalItems = 11;
+
+        function handleCheck(checkbox) {
+            const parentLabel = checkbox.parentElement;
+            if (checkbox.checked) {
+                parentLabel.classList.add('checked');
+            } else {
+                parentLabel.classList.remove('checked');
+            }
+            updateProgress();
         }
 
         function updateProgress() {
-            const checkedPhase1 = document.querySelectorAll('#list1 .checklist-item.checked').length;
-            const checkedPhase2 = document.querySelectorAll('#list2 .checklist-item.checked').length;
+            const checkedPhase1 = document.querySelectorAll('#list1 .checked').length;
+            const checkedPhase2 = document.querySelectorAll('#list2 .checked').length;
             const totalChecked = checkedPhase1 + checkedPhase2;
 
-            // Update Progress Bar
-            const percentage = (totalChecked / totalItems) * 100;
+            // Execution Framework Progression Bar Scaling
+            const percentage = Math.round((totalChecked / totalItems) * 100);
             document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progress-percent').innerText = percentage + '%';
 
-            // Unlock Phase 2
+            // Sequential Gating Assessment Matrix
             const phase2 = document.getElementById('phase2');
             if (checkedPhase1 === 9) {
                 if (phase2.classList.contains('locked')) {
                     phase2.classList.remove('locked');
-                    // Smooth scroll to Phase 2
                     setTimeout(() => {
                         phase2.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        // Change checkboxes to green for phase 2
-                        document.querySelectorAll('#list2 .checklist-item.checked .checkbox-circle').forEach(el => {
-                            el.style.backgroundColor = 'var(--apple-green)';
-                            el.style.borderColor = 'var(--apple-green)';
-                        });
-                        document.documentElement.style.setProperty('--apple-blue', 'var(--apple-green)');
-                    }, 300);
+                    }, 200);
                 }
             } else {
                 phase2.classList.add('locked');
-                document.documentElement.style.setProperty('--apple-blue', '#0071E3'); // Revert color
+                body.removeAttribute('data-theme');
             }
 
-            // Show Final Success
+            // Global Completion Validation
+            const successBox = document.getElementById('success-message');
             if (totalChecked === totalItems) {
-                document.getElementById('success-message').classList.add('visible');
+                successBox.classList.add('visible');
                 setTimeout(() => {
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                }, 200);
+                    successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 400);
             } else {
-                document.getElementById('success-message').classList.remove('visible');
+                successBox.classList.remove('visible');
             }
         }
 
-        // Translation Dictionary
+        // Multilingual Localization Matrices
         const translations = {
             en: {
-                "hero-title": "Change of Status",
+                "hero-title": '<span class="hero-text-line"><span>Change of</span></span><span class="hero-text-line"><span>Status.</span></span>',
                 "hero-sub": "B1/B2 ➔ F-1 Student Visa",
                 "phase1-title": "Get COS Pending I-20",
                 "phase1-desc": "Select documents as you gather them. Complete this section to unlock the next step.",
@@ -556,7 +979,7 @@
                 "success-sub": "You have completed all the preparation steps for your COS."
             },
             es: {
-                "hero-title": "Cambio de Estatus",
+                "hero-title": '<span class="hero-text-line"><span>Cambio de</span></span><span class="hero-text-line"><span>Estatus.</span></span>',
                 "hero-sub": "B1/B2 ➔ Visa de Estudiante F-1",
                 "phase1-title": "Obtener I-20 Pendiente",
                 "phase1-desc": "Seleccione los documentos a medida que los reúna. Complete esta sección para desbloquear el siguiente paso.",
@@ -581,7 +1004,7 @@
                 "success-sub": "Ha completado todos los pasos de preparación para su Cambio de Estatus."
             },
             zh: {
-                "hero-title": "身份转换",
+                "hero-title": '<span class="hero-text-line"><span>身份转换</span></span>',
                 "hero-sub": "B1/B2 ➔ F-1 学生签证",
                 "phase1-title": "获取 COS Pending I-20",
                 "phase1-desc": "准备好文件后打勾。完成此部分以解锁下一步。",
@@ -606,7 +1029,7 @@
                 "success-sub": "您已完成身份转换的所有准备步骤。"
             },
             ko: {
-                "hero-title": "신분 변경",
+                "hero-title": '<span class="hero-text-line"><span>신분 변경</span></span>',
                 "hero-sub": "B1/B2 ➔ F-1 학생 비자",
                 "phase1-title": "COS Pending I-20 받기",
                 "phase1-desc": "준비된 서류를 선택하세요. 다음 단계를 잠금 해제하려면 이 섹션을 완료하세요.",
@@ -631,7 +1054,7 @@
                 "success-sub": "신분 변경을 위한 모든 준비 단계를 완료했습니다."
             },
             th: {
-                "hero-title": "การเปลี่ยนสถานะ",
+                "hero-title": '<span class="hero-text-line"><span>การเปลี่ยนสถานะ</span></span>',
                 "hero-sub": "B1/B2 ➔ วีซ่านักเรียน F-1",
                 "phase1-title": "ขอ COS Pending I-20",
                 "phase1-desc": "เลือกเอกสารเมื่อคุณเตรียมพร้อม ทำส่วนนี้ให้เสร็จเพื่อปลดล็อกขั้นตอนถัดไป",
@@ -658,19 +1081,23 @@
         };
 
         function setLanguage(lang) {
-            // Update UI buttons
-            const buttons = document.querySelectorAll('.lang-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            // Translate Text
-            const currentLang = translations[lang];
-            for (let key in currentLang) {
-                const element = document.getElementById(key);
-                if (element) {
-                    element.innerHTML = currentLang[key];
+            const wrapper = document.getElementById('content-wrapper');
+            wrapper.style.opacity = 0;
+
+            setTimeout(() => {
+                const currentLang = translations[lang];
+                for (let key in currentLang) {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.innerHTML = currentLang[key];
+                    }
                 }
-            }
+                attachHoverEvents();
+                wrapper.style.opacity = 1;
+            }, 400);
         }
     </script>
 </body>
