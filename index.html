@@ -29,9 +29,10 @@
             --warning: #fd9900;
             --danger: #fe2712;
             
-            --glass-bg: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --card-shadow: 0 20px 40px rgba(20, 25, 31, 0.06);
+            /* Adjusted glass opacity for better text contrast against video */
+            --glass-bg: rgba(255, 255, 255, 0.80);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --card-shadow: 0 20px 40px rgba(20, 25, 31, 0.1);
             
             --font-main: 'Inter', sans-serif;
             --font-display: 'Syne', sans-serif;
@@ -45,9 +46,10 @@
             --bg-base: #0b0f14;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --glass-bg: rgba(15, 23, 42, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            /* Adjusted glass opacity for dark mode text contrast */
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -63,7 +65,7 @@
             background-color: var(--bg-base);
             color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.6; /* UI Manual Section 1 Content Line Height Ratio */
+            line-height: 1.6;
             font-size: 16px;
             transition: background-color 0.8s var(--transition-smooth), color 0.8s var(--transition-smooth);
         }
@@ -92,11 +94,11 @@
             transition: opacity 1.2s var(--transition-smooth);
         }
 
-        /* Crossfade logic matched to theme status */
-        body:not([data-theme="dark"]) #video-light { opacity: 0.85; }
-        body[data-theme="dark"] #video-dark { opacity: 0.55; }
+        /* Crossfade logic matched to theme status - Adjusted for visual clarity */
+        body:not([data-theme="dark"]) #video-light { opacity: 0.65; }
+        body[data-theme="dark"] #video-dark { opacity: 0.45; }
 
-        /* Smooth Custom Cursor Engine (Dropped on Mobile Viewports automatically) */
+        /* Smooth Custom Cursor Engine */
         .cursor-glow {
             position: fixed;
             width: 400px;
@@ -135,11 +137,10 @@
             padding: 0 var(--space-lg);
         }
 
-        /* Typography & Functional Hierarchy Hierarchy Adjustments */
         h1, h2, h3 {
             font-family: var(--font-display);
             font-weight: 800;
-            line-height: 1.2; /* Tight ratio optimized for Display elements */
+            line-height: 1.2;
             letter-spacing: -0.02em;
             color: var(--text-main);
         }
@@ -240,12 +241,12 @@
 
         .progress-track {
             height: 6px;
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.1);
             border-radius: var(--radius-round);
             overflow: hidden;
             margin-bottom: var(--space-xs);
         }
-        [data-theme="dark"] .progress-track { background: rgba(255, 255, 255, 0.1); }
+        [data-theme="dark"] .progress-track { background: rgba(255, 255, 255, 0.2); }
 
         .progress-fill {
             height: 100%;
@@ -323,7 +324,7 @@
         }
         .phase-section:not(.locked) .locked-message { display: none; }
 
-        /* Checklist Component System (Strictly >44px Tap Boundaries) */
+        /* Checklist Component System */
         .checklist {
             display: flex;
             flex-direction: column;
@@ -335,25 +336,25 @@
             align-items: center;
             gap: var(--space-md);
             padding: var(--space-md);
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: var(--radius-sm);
             cursor: pointer;
-            min-height: 56px; /* High tactile reliability execution style */
+            min-height: 56px; /* Accessibility: >44px Tap Boundaries */
             transition: all 0.25s var(--transition-smooth);
         }
         [data-theme="dark"] .checklist-item {
-            background: rgba(255, 255, 255, 0.02);
-            border-color: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
         .checklist-item:hover {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             border-color: var(--accent-primary);
         }
         [data-theme="dark"] .checklist-item:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* Customized Form Factor Handles */
@@ -396,15 +397,15 @@
         }
 
         .checklist-item.checked {
-            background: rgba(45, 202, 115, 0.05) !important;
-            border-color: rgba(45, 202, 115, 0.2);
+            background: rgba(45, 202, 115, 0.1) !important;
+            border-color: rgba(45, 202, 115, 0.3);
         }
         .checklist-item.checked .item-text {
             color: var(--text-muted);
             text-decoration: line-through;
         }
 
-        /* Notice System Elements (UI Manual Semantics) */
+        /* Notice System Elements */
         .callout {
             margin-top: var(--space-lg);
             padding: var(--space-md) var(--space-lg);
@@ -412,15 +413,15 @@
             font-size: 0.95rem;
             font-weight: 500;
             border-left: 4px solid var(--accent-primary);
-            background: rgba(62, 142, 244, 0.08);
+            background: rgba(62, 142, 244, 0.1);
         }
         .callout-warning {
             border-left-color: var(--warning);
-            background: rgba(253, 153, 0, 0.08);
+            background: rgba(253, 153, 0, 0.1);
         }
         .callout-urgent {
             border-left-color: var(--danger);
-            background: rgba(254, 39, 18, 0.08);
+            background: rgba(254, 39, 18, 0.1);
         }
 
         /* Success Modular Dialog */
@@ -454,19 +455,22 @@
                 --space-xl: var(--space-lg);
                 --space-lg: var(--space-md);
             }
-            .cursor-glow, .cursor-dot { display: none; } /* Drop redundant engines on touch frames */
+            .cursor-glow, .cursor-dot { display: none; } /* Drop cursor engines on touch frames */
             header .logo { font-size: 1.1rem; }
             .glass-panel { padding: var(--space-md); }
             .section-header { font-size: 1.4rem; }
             .item-text { font-size: 0.95rem; }
+            
+            /* Enhanced legibility for mobile displays */
+            body:not([data-theme="dark"]) #video-light { opacity: 0.45; }
+            body[data-theme="dark"] #video-dark { opacity: 0.35; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Motion Track Layers -->
+    <!-- Motion Track Layers: MP4 Backgrounds -->
     <div class="video-bg-container">
-        <!-- Direct High Definition Inline Video Backdrops replacement asset paths -->
         <video id="video-light" class="video-stream" autoplay loop muted playsinline>
             <source src="bali-lake.mp4" type="video/mp4">
         </video>
