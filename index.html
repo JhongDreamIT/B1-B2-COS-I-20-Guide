@@ -4,427 +4,430 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change of Status Guide | DreamIT ESL</title>
+    
+    <!-- Design Manual Typography System -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* Strict 8pt / 4pt Spacing Scale & Functional Color Matrix */
         :root {
-            --bg-color: #fafafa;
-            --text-color: #050411;
-            --accent-color: #e6e6e6;
-            --success-color: #10b981;
-            --danger-color: #ff4a4a;
-            --warning-bg: rgba(255, 149, 0, 0.1);
-            --warning-border: #ff9500;
-            --glow-color: rgba(80, 79, 237, 0.15);
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-xxl: 48px;
+            --space-huge: 64px;
+
+            --bg-base: #f8f9fa;
+            --text-main: #14191f; /* Optimized "Lighter" Black to protect eye-strain */
+            --text-muted: #4e5d6c;
+            --accent-primary: #3e8ef4; /* Deep Trust Blue */
+            --success: #2dca73;
+            --warning: #fd9900;
+            --danger: #fe2712;
+            
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --card-shadow: 0 20px 40px rgba(20, 25, 31, 0.06);
+            
             --font-main: 'Inter', sans-serif;
             --font-display: 'Syne', sans-serif;
-            --transition-smooth: cubic-bezier(0.19, 1, 0.22, 1);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-round: 100px;
+            --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         [data-theme="dark"] {
-            --bg-color: #050411;
-            --text-color: #ffffff;
-            --accent-color: #333333;
-            --glow-color: rgba(80, 79, 237, 0.25);
-            --warning-bg: rgba(255, 149, 0, 0.15);
+            --bg-base: #0b0f14;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
             font-family: var(--font-main);
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-base);
+            color: var(--text-main);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            cursor: none; 
+            line-height: 1.6; /* UI Manual Section 1 Content Line Height Ratio */
+            font-size: 16px;
             transition: background-color 0.8s var(--transition-smooth), color 0.8s var(--transition-smooth);
-            line-height: 1.5;
         }
 
-        /* Dual Cursor System */
-        .cursor {
+        /* Ambient Dynamic Viewport Background Layer System */
+        .video-bg-container {
             position: fixed;
             top: 0;
             left: 0;
-            width: 20px;
-            height: 20px;
-            background-color: var(--text-color);
-            border-radius: 50%;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
             pointer-events: none;
-            z-index: 99999;
+        }
+
+        .video-stream {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transform: translate(-50%, -50%);
-            transition: width 0.3s var(--transition-smooth), height 0.3s var(--transition-smooth), background-color 0.3s var(--transition-smooth);
-            mix-blend-mode: difference;
+            opacity: 0;
+            transition: opacity 1.2s var(--transition-smooth);
         }
 
-        .cursor.hovering {
-            width: 60px;
-            height: 60px;
-            background-color: #fff;
-        }
+        /* Crossfade logic matched to theme status */
+        body:not([data-theme="dark"]) #video-light { opacity: 0.85; }
+        body[data-theme="dark"] #video-dark { opacity: 0.55; }
 
+        /* Smooth Custom Cursor Engine (Dropped on Mobile Viewports automatically) */
         .cursor-glow {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--glow-color) 0%, transparent 60%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(62, 142, 244, 0.1) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
             z-index: 9998;
-            transition: background 0.8s var(--transition-smooth);
         }
 
-        /* Typography */
-        h1, h2, h3, h4 {
+        .cursor-dot {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .cursor-dot.hovering {
+            width: 24px;
+            height: 24px;
+            background-color: rgba(62, 142, 244, 0.3);
+            border: 2px solid var(--accent-primary);
+        }
+
+        /* Container Layout Architecture */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        /* Typography & Functional Hierarchy Hierarchy Adjustments */
+        h1, h2, h3 {
             font-family: var(--font-display);
-            font-weight: 700;
+            font-weight: 800;
+            line-height: 1.2; /* Tight ratio optimized for Display elements */
+            letter-spacing: -0.02em;
+            color: var(--text-main);
         }
 
-        a, button {
-            text-decoration: none;
-            color: inherit;
-            cursor: none;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-
-        /* Header */
+        /* Navigation Systems */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.5rem 4rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
             z-index: 100;
-            transition: padding 0.5s ease, background 0.5s ease;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            mix-blend-mode: difference;
-            color: #fff;
+            transition: background 0.4s, backdrop-filter 0.4s;
+            padding: var(--space-md) 0;
         }
 
         header.scrolled {
-            padding: 1rem 4rem;
-            background: rgba(5, 4, 17, 0.05);
-            backdrop-filter: blur(15px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: var(--space-sm) 0;
         }
 
-        header.scrolled .header-top {
-            mix-blend-mode: normal;
-            color: var(--text-color);
+        .header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--space-lg);
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+            font-size: 1.25rem;
             font-family: var(--font-display);
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 800;
         }
 
-        /* Language Switcher */
         .nav-scroll {
             display: flex;
-            gap: 0.75rem;
+            gap: var(--space-sm);
             overflow-x: auto;
             scrollbar-width: none;
-            padding-bottom: 0.5rem;
         }
         .nav-scroll::-webkit-scrollbar { display: none; }
 
         .lang-btn {
-            border: 1px solid var(--accent-color);
-            color: var(--text-color);
-            padding: 0.5rem 1.2rem;
-            border-radius: 100px;
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-round);
             font-size: 0.85rem;
             font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-            opacity: 0.7;
+            text-transform: capitalize;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            opacity: 0.6;
         }
 
-        header.scrolled .lang-btn { border-color: var(--text-color); }
-        .lang-btn:hover { opacity: 1; }
-        .lang-btn.active {
-            background: var(--text-color);
-            color: var(--bg-color);
-            border-color: var(--text-color);
+        .lang-btn:hover, .lang-btn.active {
             opacity: 1;
+            border-color: var(--accent-primary);
+            background: var(--accent-primary);
+            color: #ffffff;
         }
 
-        /* Layout Containers */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 4rem;
-        }
-        .section-pad { padding: 6rem 0; }
-        
-        #content-wrapper {
-            opacity: 1;
-            transition: opacity 0.4s ease;
-        }
-
-        /* Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s var(--transition-smooth), transform 1s var(--transition-smooth);
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Hero */
+        /* Hero Architecture */
         .hero {
-            min-height: 70vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding-top: 8rem;
+            padding-top: calc(120px + var(--space-huge));
+            padding-bottom: var(--space-xxl);
+            text-align: center;
         }
+
         .hero h1 {
-            font-size: clamp(3rem, 7vw, 6.5rem);
-            line-height: 1;
-            letter-spacing: -2px;
-            max-width: 900px;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: var(--space-sm);
         }
-        .hero-text-line { overflow: hidden; display: block; }
-        .hero-text-line span {
-            display: block;
-            transform: translateY(100%);
-            animation: slideUp 1s var(--transition-smooth) forwards;
-        }
-        .hero-text-line:nth-child(2) span { animation-delay: 0.15s; }
-        @keyframes slideUp { to { transform: translateY(0); } }
 
         .hero-subtitle {
-            font-size: 1.5rem;
-            color: #666;
-            margin-top: 1.5rem;
-            max-width: 600px;
-            animation: fadeIn 1.2s ease forwards 0.4s;
-            opacity: 0;
-        }
-        [data-theme="dark"] .hero-subtitle { color: #aaa; }
-        @keyframes fadeIn { to { opacity: 1; } }
-
-        /* Video Background Blob (Replacing the Fluid Canvas) */
-        .video-blob-bg {
-            position: absolute;
-            right: -5%;
-            top: 10%;
-            width: 550px;
-            height: 550px;
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            overflow: hidden;
-            z-index: -1;
-            opacity: 0.95;
-            animation: morphShape 15s ease-in-out infinite alternate;
-            transition: opacity 0.8s var(--transition-smooth);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
-        }
-        
-        .video-blob-bg video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            pointer-events: none;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--accent-primary);
+            font-weight: 700;
+            font-family: var(--font-display);
         }
 
-        [data-theme="dark"] .video-blob-bg {
-            opacity: 0.5; /* Dims the video in dark mode for better contrast */
-        }
-
-        @keyframes morphShape {
-            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
-            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
-            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-        }
-
-        /* Sticky Progress Section */
+        /* High Visibility Sticky Tracker Module */
         .progress-sticky {
             position: sticky;
-            top: 110px;
-            background: var(--bg-color);
-            padding: 1.5rem 0;
+            top: 76px;
             z-index: 90;
-            border-bottom: 1px solid var(--accent-color);
-            transition: background 0.8s var(--transition-smooth);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: var(--space-md) 0;
+            transition: background 0.5s;
         }
+
         .progress-track {
-            height: 4px;
-            background: var(--accent-color);
-            border-radius: 2px;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius-round);
             overflow: hidden;
-            width: 100%;
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-xs);
         }
+        [data-theme="dark"] .progress-track { background: rgba(255, 255, 255, 0.1); }
+
         .progress-fill {
             height: 100%;
-            background: var(--text-color);
+            background: linear-gradient(90deg, var(--accent-primary), var(--success));
             width: 0%;
-            transition: width 0.5s var(--transition-smooth), background-color 0.3s;
+            transition: width 0.4s var(--transition-smooth);
         }
+
         .progress-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
         }
 
-        /* Section Architecture */
+        /* Content Architecture Blocks */
+        .phase-section {
+            margin: var(--space-huge) 0;
+            transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth);
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-xl);
+            box-shadow: var(--card-shadow);
+        }
+
         .section-header-block {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
         }
+
         .section-badge {
             font-family: var(--font-display);
-            font-size: 1.75rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            width: 50px;
-            height: 50px;
-            border: 2px solid var(--text-color);
+            width: 40px;
+            height: 40px;
+            background: var(--text-main);
+            color: var(--bg-base);
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
         }
-        .section-header {
-            font-size: 3rem;
-            letter-spacing: -1px;
-        }
-        .section-intro {
-            font-size: 1.25rem;
-            opacity: 0.7;
-            margin-bottom: 3rem;
-            max-width: 800px;
-        }
 
-        /* Sequential Locking States */
-        .phase-card {
-            transition: opacity 0.6s ease, transform 0.6s var(--transition-smooth), filter 0.6s ease;
-        }
-        .phase-card.locked {
-            opacity: 0.3;
+        .section-header { font-size: 1.75rem; }
+        .section-intro { color: var(--text-muted); margin-bottom: var(--space-lg); }
+
+        /* Gated States Implementation */
+        .phase-section.locked {
+            opacity: 0.35;
             pointer-events: none;
-            filter: grayscale(100%);
             transform: scale(0.98);
         }
-        .locked-message {
-            display: none;
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--danger-color);
-            margin-bottom: 2rem;
-        }
-        .phase-card.locked .locked-message { display: block; }
 
-        /* Checklist Architecture */
-        .checklist {
-            border-top: 2px solid var(--text-color);
-            margin-bottom: 2.5rem;
+        .locked-message {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--danger);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-md);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
         }
+        .phase-section:not(.locked) .locked-message { display: none; }
+
+        /* Checklist Component System (Strictly >44px Tap Boundaries) */
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
         .checklist-item {
             display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-            padding: 2rem 0;
-            border-bottom: 1px dashed var(--accent-color);
-            transition: opacity 0.3s;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            min-height: 56px; /* High tactile reliability execution style */
+            transition: all 0.25s var(--transition-smooth);
         }
+        [data-theme="dark"] .checklist-item {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .checklist-item:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.8);
+            border-color: var(--accent-primary);
+        }
+        [data-theme="dark"] .checklist-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Customized Form Factor Handles */
         .checklist-item input[type="checkbox"] {
             appearance: none;
-            width: 30px;
-            height: 30px;
-            border: 2px solid var(--text-color);
-            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--text-muted);
+            border-radius: 6px;
             display: grid;
             place-content: center;
-            margin-top: 2px;
             flex-shrink: 0;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            background: transparent;
         }
+
         .checklist-item input[type="checkbox"]::before {
             content: "";
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             transform: scale(0);
-            border-radius: 50%;
-            transition: 120ms transform ease-in-out;
-            background-color: var(--bg-color);
+            background-color: #ffffff;
+            clip-path: polygon(14% 44%, 0 58%, 38% 96%, 100% 16%, 86% 2%, 38% 70%);
+            transition: 0.15s transform var(--transition-smooth);
         }
+
         .checklist-item input[type="checkbox"]:checked {
-            background-color: var(--text-color);
-            border-color: var(--text-color);
+            background-color: var(--success);
+            border-color: var(--success);
         }
+
         .checklist-item input[type="checkbox"]:checked::before {
             transform: scale(1);
         }
+
         .item-text {
-            font-size: 1.25rem;
+            font-size: 1rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: color 0.3s;
+        }
+
+        .checklist-item.checked {
+            background: rgba(45, 202, 115, 0.05) !important;
+            border-color: rgba(45, 202, 115, 0.2);
         }
         .checklist-item.checked .item-text {
-            opacity: 0.4;
+            color: var(--text-muted);
             text-decoration: line-through;
         }
 
-        /* Callouts */
+        /* Notice System Elements (UI Manual Semantics) */
         .callout {
-            padding: 2rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            margin-top: var(--space-lg);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
             font-weight: 500;
-            display: flex;
-            gap: 1.25rem;
-            align-items: flex-start;
-            margin-top: 2rem;
-            border: 1px solid var(--accent-color);
+            border-left: 4px solid var(--accent-primary);
+            background: rgba(62, 142, 244, 0.08);
         }
-        .callout-info { background-color: var(--accent-color); }
         .callout-warning {
-            background-color: var(--warning-bg);
-            border-color: var(--warning-border);
-            color: var(--text-color);
+            border-left-color: var(--warning);
+            background: rgba(253, 153, 0, 0.08);
         }
         .callout-urgent {
-            background-color: rgba(255, 45, 85, 0.1);
-            border-color: var(--danger-color);
-            color: var(--text-color);
+            border-left-color: var(--danger);
+            background: rgba(254, 39, 18, 0.08);
         }
 
-        /* Final Success Box */
+        /* Success Modular Dialog */
         #success-message {
             display: none;
             text-align: center;
-            padding: 4rem 2rem;
-            border: 1px solid var(--accent-color);
-            border-radius: 16px;
-            margin-top: 4rem;
+            padding: var(--space-xl);
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.6s var(--transition-smooth);
@@ -434,66 +437,67 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .success-icon { font-size: 4rem; display: block; margin-bottom: 1rem; }
+        .success-icon { font-size: 3.5rem; display: block; margin-bottom: var(--space-sm); }
 
-        footer { padding: 4rem 0 2rem; text-align: center; border-top: 1px solid var(--accent-color); margin-top: 4rem; }
-
-        @media (max-width: 1024px) {
-            header { padding: 1.5rem 2rem; }
-            .container { padding: 0 2rem; }
-            .video-blob-bg {
-                width: 400px;
-                height: 400px;
-                top: auto;
-                bottom: -10%;
-                opacity: 0.4;
-                z-index: -2;
-            }
+        footer {
+            padding: var(--space-xl) 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            margin-top: var(--space-huge);
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
+
+        /* Responsive Breakpoint Adaptations */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; }
-            .section-header { font-size: 2.25rem; }
-            .checklist-item { gap: 1rem; }
-            .item-text { font-size: 1.1rem; }
-            .cursor { display: none; }
-            .video-blob-bg {
-                width: 300px;
-                height: 300px;
+            :root {
+                --space-xl: var(--space-lg);
+                --space-lg: var(--space-md);
             }
+            .cursor-glow, .cursor-dot { display: none; } /* Drop redundant engines on touch frames */
+            header .logo { font-size: 1.1rem; }
+            .glass-panel { padding: var(--space-md); }
+            .section-header { font-size: 1.4rem; }
+            .item-text { font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cursor-glow" id="cursorGlow"></div>
-    <div class="cursor" id="custom-cursor"></div>
+    <!-- Motion Track Layers -->
+    <div class="video-bg-container">
+        <!-- Direct High Definition Inline Video Backdrops replacement asset paths -->
+        <video id="video-light" class="video-stream" autoplay loop muted playsinline>
+            <source src="bali-lake.mp4" type="video/mp4">
+        </video>
+        <video id="video-dark" class="video-stream" autoplay loop muted playsinline>
+            <source src="tokyo-skytree.mp4" type="video/mp4">
+        </video>
+    </div>
 
-    <header id="main-header">
-        <div class="header-top">
-            <a href="#" class="logo">DreamIT ESL</a>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="cursor-dot" id="customCursor"></div>
+
+    <header id="mainHeader">
+        <div class="header-top container">
+            <div class="header-wrapper">
+                <a href="#" class="logo">DreamIT ESL</a>
+                <nav class="nav-scroll">
+                    <button class="lang-btn active" onclick="setLanguage('en')">english</button>
+                    <button class="lang-btn" onclick="setLanguage('es')">español</button>
+                    <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+                    <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
+                    <button class="lang-btn" onclick="setLanguage('th')">ไทย</button>
+                </nav>
+            </div>
         </div>
-        <nav class="nav-scroll">
-            <button class="lang-btn active hover-target" onclick="setLanguage('en')">english</button>
-            <button class="lang-btn hover-target" onclick="setLanguage('es')">español</button>
-            <button class="lang-btn hover-target" onclick="setLanguage('zh')">中文</button>
-            <button class="lang-btn hover-target" onclick="setLanguage('ko')">한국어</button>
-            <button class="lang-btn hover-target" onclick="setLanguage('th')">ไทย</button>
-        </nav>
     </header>
 
     <main id="content-wrapper">
         
-        <section class="hero container" data-theme-trigger="light">
-            <div class="video-blob-bg">
-                <video autoplay loop muted playsinline>
-                    <source src="nature MP4.mp4" type="video/mp4">
-                </video>
-            </div>
+        <section class="hero container">
             <div>
-                <h1 id="hero-title">
-                    <span class="hero-text-line"><span>Change of</span></span>
-                    <span class="hero-text-line"><span>Status.</span></span>
-                </h1>
+                <h1 id="hero-title">Change of Status.</h1>
                 <p class="hero-subtitle" id="hero-sub">B1/B2 ➔ F-1 Student Visa</p>
             </div>
         </section>
@@ -502,94 +506,98 @@
             <div class="container">
                 <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
                 <div class="progress-info">
-                    <span style="font-family: var(--font-main); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Status Progression</span>
+                    <span id="tracker-label">Status Progression</span>
                     <span id="progress-percent">0%</span>
                 </div>
             </div>
         </div>
 
-        <section class="section-pad container reveal" id="phase1" data-theme-trigger="light">
-            <div class="section-header-block">
-                <div class="section-badge">1</div>
-                <h2 class="section-header" id="phase1-title">Get COS Pending I-20</h2>
-            </div>
-            <p class="section-intro" id="phase1-desc">Select documents as you gather them. Complete this section to unlock the next step.</p>
-            
-            <div class="checklist" id="list1">
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc1">Passport (valid next six months)</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc2">Visa (inside the passport)</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc3">I-94 (should be on travel visa for 2-3 months)</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc4">Bank Statement (at least $15,000 USD)</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc5">Letter of Financial Support (if sponsored)</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc6">Proof of relationship to the sponsor</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc7">Filled Application form</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc8">Education Certificate</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="doc9">Application Fee ($100)</span>
-                </label>
-            </div>
+        <section class="container phase-section" id="phase1" data-theme-trigger="light">
+            <div class="glass-panel">
+                <div class="section-header-block">
+                    <div class="section-badge">1</div>
+                    <h2 class="section-header" id="phase1-title">Get COS Pending I-20</h2>
+                </div>
+                <p class="section-intro" id="phase1-desc">Select documents as you gather them. Complete this section to unlock the next step.</p>
+                
+                <div class="checklist" id="list1">
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc1">Passport (valid next six months)</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc2">Visa (inside the passport)</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc3">I-94 (should be on travel visa for 2-3 months)</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc4">Bank Statement (at least $15,000 USD)</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc5">Letter of Financial Support (if sponsored)</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc6">Proof of relationship to the sponsor</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc7">Filled Application form</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc8">Education Certificate</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="doc-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="doc9">Application Fee ($100)</span>
+                    </label>
+                </div>
 
-            <div class="callout callout-info">
-                <span id="phase1-note">Once the school receives all documents, the agent will request the COS Pending I-20 from the DSO.</span>
+                <div class="callout">
+                    <span id="phase1-note">Once the school receives all documents, the agent will request the COS Pending I-20 from the DSO.</span>
+                </div>
             </div>
         </section>
 
-        <section class="section-pad container reveal phase-card locked" id="phase2" data-theme-trigger="dark">
-            <div class="locked-message" id="locked-msg">🔒 Complete Step 1 to unlock this section.</div>
-            
-            <div class="section-header-block">
-                <div class="section-badge" style="border-color: currentColor;">2</div>
-                <h2 class="section-header" id="phase2-title">File for the I-539</h2>
-            </div>
-            <p class="section-intro" id="phase2-desc">After the COS Pending I-20 has been approved, proceed with these steps:</p>
+        <section class="container phase-section locked" id="phase2" data-theme-trigger="dark">
+            <div class="glass-panel">
+                <div class="locked-message" id="locked-msg">🔒 Complete Step 1 to unlock this section.</div>
+                
+                <div class="section-header-block">
+                    <div class="section-badge">2</div>
+                    <h2 class="section-header" id="phase2-title">File for the I-539</h2>
+                </div>
+                <p class="section-intro" id="phase2-desc">After the COS Pending I-20 has been approved, proceed with these steps:</p>
 
-            <div class="callout callout-warning">
-                <span id="lawyer-warning"><b>Highly Recommended:</b> Get help from an immigration lawyer to do this, as it is a very critical step.</span>
-            </div>
+                <div class="callout callout-warning">
+                    <span id="lawyer-warning"><b>Highly Recommended:</b> Get help from an immigration lawyer to do this, as it is a very critical step.</span>
+                </div>
 
-            <div class="checklist" id="list2" style="margin-top: 3rem;">
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="step-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="step1">Pay the SEVIS I-901 Fee</span>
-                </label>
-                <label class="checklist-item hover-target">
-                    <input type="checkbox" class="step-check" onchange="handleCheck(this)">
-                    <span class="item-text" id="step2">File the Form I-539</span>
-                </label>
-            </div>
+                <div class="checklist" id="list2" style="margin-top: var(--space-md);">
+                    <label class="checklist-item">
+                        <input type="checkbox" class="step-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="step1">Pay the SEVIS I-901 Fee</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="step-check" onchange="handleCheck(this)">
+                        <span class="item-text" id="step2">File the Form I-539</span>
+                    </label>
+                </div>
 
-            <div class="callout callout-urgent">
-                <span id="urgent-action"><b>Urgent:</b> After paying the SEVIS and filing the I-539, send the school the receipt and the I-539 notice immediately!</span>
+                <div class="callout callout-urgent">
+                    <span id="urgent-action"><b>Urgent:</b> After paying the SEVIS and filing the I-539, send the school the receipt and the I-539 notice immediately!</span>
+                </div>
             </div>
         </section>
 
-        <section class="container section-pad">
-            <div id="success-message">
+        <section class="container">
+            <div id="success-message" class="glass-panel">
                 <span class="success-icon">🎉</span>
                 <h2 id="success-title">You're All Set!</h2>
                 <p id="success-sub">You have completed all the preparation steps for your COS.</p>
@@ -599,13 +607,13 @@
     </main>
 
     <footer class="main-footer">
-        <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem;">DreamIT ESL</h2>
-        <p style="color: #666; font-size: 0.9rem;">Change of Status Guidelines &copy; 2024</p>
+        <h2 style="font-size: 1.25rem; margin-bottom: var(--space-xs);">DreamIT ESL</h2>
+        <p id="footer-copy">Change of Status Guidelines &copy; 2026</p>
     </footer>
 
     <script>
-        // Dual Cursor Control Configuration
-        const dotCursor = document.getElementById('custom-cursor');
+        // Custom Fluid Cursor Interaction Logic
+        const dotCursor = document.getElementById('customCursor');
         const glowCursor = document.getElementById('cursorGlow');
 
         document.addEventListener('mousemove', (e) => {
@@ -615,42 +623,43 @@
             glowCursor.style.top = e.clientY + 'px';
         });
 
-        function attachHoverEvents() {
-            document.querySelectorAll('.hover-target, a, button, input[type="checkbox"]').forEach(target => {
-                target.addEventListener('mouseenter', () => dotCursor.classList.add('hovering'));
-                target.addEventListener('mouseleave', () => dotCursor.classList.remove('hovering'));
+        function initInteractivityEffects() {
+            document.querySelectorAll('a, button, input[type="checkbox"], .checklist-item').forEach(el => {
+                el.addEventListener('mouseenter', () => dotCursor.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => dotCursor.classList.remove('hovering'));
             });
         }
-        attachHoverEvents();
+        initInteractivityEffects();
 
-        // Scroll Engine Reveals
-        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            });
-        }, revealOptions);
-        document.querySelectorAll('.reveal').forEach(el => revealOnScroll.observe(el));
+        // Structural Header Scroll Controller
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
 
-        // Dynamic Theme Intersection Configurations
-        const body = document.body;
-        const themeObserver = new IntersectionObserver(function(entries) {
+        // Theme and Dynamic Crossfade Video Switcher Matrix
+        const themeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                // Ignore background canvas transformations if target section remains constrained/locked
                 if (entry.target.id === 'phase2' && entry.target.classList.contains('locked')) return;
                 
                 if (entry.isIntersecting) {
-                    const theme = entry.target.getAttribute('data-theme-trigger');
-                    if (theme === 'dark') body.setAttribute('data-theme', 'dark');
-                    else body.removeAttribute('data-theme');
+                    const triggerTheme = entry.target.getAttribute('data-theme-trigger');
+                    if (triggerTheme === 'dark') {
+                        document.body.setAttribute('data-theme', 'dark');
+                    } else {
+                        document.body.removeAttribute('data-theme');
+                    }
                 }
             });
-        }, { threshold: 0.25 });
-        document.querySelectorAll('[data-theme-trigger]').forEach(trigger => themeObserver.observe(trigger));
+        }, { threshold: 0.2, rootMargin: "-10% 0px -40% 0px" });
 
-        // Workflow Metrics Management
+        document.querySelectorAll('[data-theme-trigger]').forEach(el => themeObserver.observe(el));
+
+        // Processing & Gated Matrix Engine Logic
         const totalItems = 11;
 
         function handleCheck(checkbox) {
@@ -664,30 +673,32 @@
         }
 
         function updateProgress() {
-            const checkedPhase1 = document.querySelectorAll('#list1 .checked').length;
-            const checkedPhase2 = document.querySelectorAll('#list2 .checked').length;
+            const checkedPhase1 = document.querySelectorAll('#list1 input:checked').length;
+            const checkedPhase2 = document.querySelectorAll('#list2 input:checked').length;
             const totalChecked = checkedPhase1 + checkedPhase2;
 
-            // Execution Framework Progression Bar Scaling
             const percentage = Math.round((totalChecked / totalItems) * 100);
             document.getElementById('progressBar').style.width = percentage + '%';
             document.getElementById('progress-percent').innerText = percentage + '%';
 
-            // Sequential Gating Assessment Matrix
             const phase2 = document.getElementById('phase2');
             if (checkedPhase1 === 9) {
                 if (phase2.classList.contains('locked')) {
                     phase2.classList.remove('locked');
                     setTimeout(() => {
-                        phase2.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 200);
+                        phase2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
                 }
             } else {
                 phase2.classList.add('locked');
-                body.removeAttribute('data-theme');
+                document.body.removeAttribute('data-theme');
+                // Force uncheck step 2 items if step 1 becomes incomplete
+                document.querySelectorAll('#list2 input').forEach(input => {
+                    input.checked = false;
+                    input.parentElement.classList.remove('checked');
+                });
             }
 
-            // Global Completion Validation
             const successBox = document.getElementById('success-message');
             if (totalChecked === totalItems) {
                 successBox.classList.add('visible');
@@ -699,11 +710,12 @@
             }
         }
 
-        // Multilingual Localization Matrices
+        // Translation Localization Matrices
         const translations = {
             en: {
-                "hero-title": '<span class="hero-text-line"><span>Change of</span></span><span class="hero-text-line"><span>Status.</span></span>',
+                "hero-title": "Change of Status.",
                 "hero-sub": "B1/B2 ➔ F-1 Student Visa",
+                "tracker-label": "Status Progression",
                 "phase1-title": "Get COS Pending I-20",
                 "phase1-desc": "Select documents as you gather them. Complete this section to unlock the next step.",
                 "doc1": "Passport (valid next six months)",
@@ -727,8 +739,9 @@
                 "success-sub": "You have completed all the preparation steps for your COS."
             },
             es: {
-                "hero-title": '<span class="hero-text-line"><span>Cambio de</span></span><span class="hero-text-line"><span>Estatus.</span></span>',
+                "hero-title": "Cambio de Estatus.",
                 "hero-sub": "B1/B2 ➔ Visa de Estudiante F-1",
+                "tracker-label": "Progresión del Estado",
                 "phase1-title": "Obtener I-20 Pendiente",
                 "phase1-desc": "Seleccione los documentos a medida que los reúna. Complete esta sección para desbloquear el siguiente paso.",
                 "doc1": "Pasaporte (válido por los próximos seis meses)",
@@ -752,8 +765,9 @@
                 "success-sub": "Ha completado todos los pasos de preparación para su Cambio de Estatus."
             },
             zh: {
-                "hero-title": '<span class="hero-text-line"><span>身份转换</span></span>',
+                "hero-title": "身份转换",
                 "hero-sub": "B1/B2 ➔ F-1 学生签证",
+                "tracker-label": "状态进度条",
                 "phase1-title": "获取 COS Pending I-20",
                 "phase1-desc": "准备好文件后打勾。完成此部分以解锁下一步。",
                 "doc1": "护照（未来六个月内有效）",
@@ -777,8 +791,9 @@
                 "success-sub": "您已完成身份转换的所有准备步骤。"
             },
             ko: {
-                "hero-title": '<span class="hero-text-line"><span>신분 변경</span></span>',
+                "hero-title": "신분 변경",
                 "hero-sub": "B1/B2 ➔ F-1 학생 비자",
+                "tracker-label": "신분 변경 진행 상황",
                 "phase1-title": "COS Pending I-20 받기",
                 "phase1-desc": "준비된 서류를 선택하세요. 다음 단계를 잠금 해제하려면 이 섹션을 완료하세요.",
                 "doc1": "여권 (6개월 이상 유효기간 남음)",
@@ -802,8 +817,9 @@
                 "success-sub": "신분 변경을 위한 모든 준비 단계를 완료했습니다."
             },
             th: {
-                "hero-title": '<span class="hero-text-line"><span>การเปลี่ยนสถานะ</span></span>',
+                "hero-title": "การเปลี่ยนสถานะ",
                 "hero-sub": "B1/B2 ➔ วีซ่านักเรียน F-1",
+                "tracker-label": "ความคืบหน้าของสถานะ",
                 "phase1-title": "ขอ COS Pending I-20",
                 "phase1-desc": "เลือกเอกสารเมื่อคุณเตรียมพร้อม ทำส่วนนี้ให้เสร็จเพื่อปลดล็อกขั้นตอนถัดไป",
                 "doc1": "พาสปอร์ต (มีอายุเหลืออย่างน้อย 6 เดือน)",
@@ -843,9 +859,9 @@
                         element.innerHTML = currentLang[key];
                     }
                 }
-                attachHoverEvents();
+                initInteractivityEffects();
                 wrapper.style.opacity = 1;
-            }, 400);
+            }, 300);
         }
     </script>
 </body>
